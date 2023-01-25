@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         fqbn:
-          - espressif:esp32:esp32
+          - esp32:esp32:esp32
           # - espressif:esp32:esp32s2
           # - espressif:esp32:esp32c3
           # - espressif:esp32:esp32s3
