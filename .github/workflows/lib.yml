@@ -45,7 +45,7 @@ jobs:
         with:
           platforms: |
             - source-url: 'https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json'
-              name: "espressif:esp32"
+              name: "esp32"
           fqbn: ${{ matrix.fqbn }}
           libraries: |
             # The "blink" sketch being compiled in this demo doesn't use any libraries, so just use an empty list
