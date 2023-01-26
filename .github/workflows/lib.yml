@@ -33,12 +33,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-     #- name: Checkout external library repo
-     #  uses: actions/checkout@v3
-     #   with:
-     #     name: blynkkk/blynk-library
-     #     ref: refs/heads/release
-
       # For more information: https://github.com/arduino/compile-sketches#readme
       - name: Compile sketch
         uses: arduino/compile-sketches@v1.0.1
