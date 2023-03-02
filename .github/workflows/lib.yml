@@ -15,7 +15,7 @@ jobs:
         # Install the libraries
         - source-path: ./
         - name: Blynk
-      # - name: Arduino_DebugUtils
+        - name: FastLED
       # - name: ArduinoMqttClient
       SKETCHES_REPORTS_PATH: libraries-report
 
@@ -57,5 +57,6 @@ jobs:
             # - libraries/Blynk/examples/Boards_WiFi/ESP32_WiFi/ESP32_WiFi.ino
             - libraries/ESP32/examples/GPIO/BlinkRGB/BlinkRGB.ino
             - /home/runner/Arduino/libraries/Blynk/examples/Boards_WiFi/ESP32_WiFi/ESP32_WiFi.ino
+            - /home/runner/Arduino/libraries/FastLED/examples/Blink/Blink.ino
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
