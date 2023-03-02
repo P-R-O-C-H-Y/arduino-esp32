@@ -44,7 +44,7 @@ jobs:
           platforms: |
             # - source-url: 'https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json'
             # - source-url: 'https://github.com/espressif/arduino-esp32.git'
-            - source-url: '/home/runner/Arduino/hardware/espressif/esp32'
+            - source-path: '/home/runner/Arduino/hardware/espressif/esp32'
               name: "esp32:esp32"
           fqbn: ${{ matrix.fqbn }}
           libraries: |
