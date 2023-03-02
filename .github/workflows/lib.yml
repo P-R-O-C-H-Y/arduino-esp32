@@ -61,4 +61,4 @@ jobs:
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
           cli-compile-flags:
-            - --warnings none
+            - --warnings "none"
