@@ -42,7 +42,7 @@ jobs:
         uses: arduino/compile-sketches@v1.0.1
         with:
           cli-compile-flags: 
-            - "--warnings none"
+            - --warnings="none"
           platforms: |
             # - source-url: 'https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json'
             # - source-url: 'https://github.com/espressif/arduino-esp32.git'
