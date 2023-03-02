@@ -25,9 +25,9 @@ jobs:
       matrix:
         fqbn:
           - esp32:esp32:esp32
-          # - espressif:esp32:esp32s2
-          # - espressif:esp32:esp32c3
-          # - espressif:esp32:esp32s3
+          - espressif:esp32:esp32s2
+          - espressif:esp32:esp32c3
+          - espressif:esp32:esp32s3
     steps:
       # This step makes the contents of the repository available to the workflow
       # Is this needed? 2 options - manual install from github(then needed) or auto install Board manager(release - not needed)
