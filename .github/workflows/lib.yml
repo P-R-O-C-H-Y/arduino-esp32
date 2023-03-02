@@ -57,7 +57,7 @@ jobs:
             # This is formatted as a YAML list, which makes it possible to have multiple sketch paths if needed.
             # - libraries/Blynk/examples/Boards_WiFi/ESP32_WiFi/ESP32_WiFi.ino
             - libraries/ESP32/examples/GPIO/BlinkRGB/BlinkRGB.ino
-            - /home/runner/Arduino/libraries/Adafruit NeoPixel/examples/strandtest/strandtest.ino
+            - /home/runner/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest/strandtest.ino
             - /home/runner/Arduino/libraries/FastLED/examples/Blink/Blink.ino
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
