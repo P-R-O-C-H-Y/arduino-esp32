@@ -60,6 +60,7 @@ jobs:
             - /home/runner/Arduino/libraries/FastLED/examples/Blink/Blink.ino
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+          enable-warnings-report: true
           cli-compile-flags: |
             - --warnings="none"
 
