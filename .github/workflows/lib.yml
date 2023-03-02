@@ -33,12 +33,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Install Arduino ESP32 core
+         run: |
+           bash .github/scripts/install-arduino-core-esp32.sh
+
       # For more information: https://github.com/arduino/compile-sketches#readme
       - name: Compile sketch
         uses: arduino/compile-sketches@v1.0.1
         with:
           platforms: |
-            - source-url: 'https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json'
+            # - source-url: 'https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json'
+            # - source-url: 'https://github.com/espressif/arduino-esp32.git'
+            - source-url: '/home/runner/Arduino/hardware/espressif/esp32'
               name: "esp32:esp32"
           fqbn: ${{ matrix.fqbn }}
           libraries: |
