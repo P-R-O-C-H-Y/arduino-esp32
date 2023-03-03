@@ -36,6 +36,10 @@ jobs:
 
       - name: Install Arduino ESP32 core
         run: |
+          bash .github/scripts//install-arduino-ide.sh
+
+      - name: Install Arduino ESP32 core
+        run: |
           bash .github/scripts/install-arduino-core-esp32.sh
 
       - name: Install Arduino Libraries
