@@ -37,16 +37,19 @@ jobs:
         #############################################################################################################
         include:
           - arduino-boards-fqbn: esp32:esp32:esp32
-            # platform-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+            platform-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
             sketches-exclude: # MatrixPatternsTest,TwoPatternsOnOneStrip because of missing EasyButton library
 
           - arduino-boards-fqbn: esp32:esp32:esp32s2
+            platform-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
             sketches-exclude: # MatrixPatternsTest,TwoPatternsOnOneStrip because of missing EasyButton library
 
           - arduino-boards-fqbn: esp32:esp32:esp32c3
+             platform-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
             sketches-exclude: # MatrixPatternsTest,TwoPatternsOnOneStrip because of missing EasyButton library
 
           - arduino-boards-fqbn: esp32:esp32:esp32s3
+            platform-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
             sketches-exclude: # MatrixPatternsTest,TwoPatternsOnOneStrip because of missing EasyButton library
 
       # Do not cancel all jobs / architectures if one job fails
@@ -65,8 +68,8 @@ jobs:
         uses: ArminJo/arduino-test-compile@master
         with:
           arduino-board-fqbn: ${{ matrix.arduino-boards-fqbn }}
-          arduino-platform: ${{ matrix.arduino-platform }}
-          #platform-url: ${{ matrix.platform-url }}
+          arduino-platform: esp32:esp32
+          platform-url: ${{ matrix.platform-url }}
           required-libraries: ${{ env.REQUIRED_LIBRARIES }}
           sketches-exclude: ${{ matrix.sketches-exclude }}
           sketch-names: "BlinkRGB.ino,strandtest.ino,Blink.ino"
