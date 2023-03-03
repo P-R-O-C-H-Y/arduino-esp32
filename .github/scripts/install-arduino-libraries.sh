@@ -8,14 +8,7 @@ if [ ! -d "$ARDUINO_LIB_PATH" ]; then
 
     echo "Arduino libraries has been installed in '$ARDUINO_USR_PATH'/libraries"
     echo "List of libraries:"
-    for entry in "$ARDUINO_USR_PATH"/*
-        do
-        echo "$entry"
-        done
-    echo ""
-    echo "/"
-    echo ""
-    for entry in "$ARDUINO_USR_PATH"/libraries/*
+    for entry in "./*"
         do
         echo "$entry"
         done
