@@ -39,6 +39,7 @@ jobs:
           bash .github/scripts/install-arduino-core-esp32.sh
 
       - name: Install Arduino Libraries
+        run: 
           bash .github/scripts/install-arduino-libraries.sh
 
       # For more information: https://github.com/arduino/compile-sketches#readme
