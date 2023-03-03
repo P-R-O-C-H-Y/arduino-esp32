@@ -9,9 +9,9 @@ echo "Cloning Arduino Libraries ..."
 
 echo "Arduino libraries has been installed in '$ARDUINO_LIB_PATH'"
 echo "List of libraries:"
-for entry in "./*"
-    do
-    echo "$entry"
-    done
+cd ..
+for dir in libraries/*; do
+        echo $dir;
+        done
 echo ""
 
