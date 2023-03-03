@@ -14,4 +14,4 @@ for dir in ./*; do
         echo $dir;
         done
 echo ""
-
+arduino-cli version
