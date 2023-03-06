@@ -86,7 +86,7 @@ jobs:
           path: ${{ env.SKETCHES_REPORTS_PATH }}
 
       - name: Report deltas
-        uses: arduino/report-size-deltas@v1
+        uses: P-R-O-C-H-Y/report-size-deltas@main
         with:
           sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
 
