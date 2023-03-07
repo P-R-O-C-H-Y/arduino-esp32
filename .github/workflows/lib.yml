@@ -84,6 +84,7 @@ jobs:
           libraries: |
             # The "blink" sketch being compiled in this demo doesn't use any libraries, so just use an empty list
             - ${{ env.UNIVERSAL_LIBRARIES }}
+            - ${{ matrix.additional-libraries }}
           sketch-paths: |
             # Configure the action to search all folders under the root of the repository for sketches and compile them.
             # This is formatted as a YAML list, which makes it possible to have multiple sketch paths if needed.
@@ -92,6 +93,7 @@ jobs:
             - /home/runner/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest/strandtest.ino
             - /home/runner/Arduino/libraries/FastLED/examples/Blink/Blink.ino
             - /home/runner/Arduino/libraries/Blynk/tests/BlynkBuildTest/BlynkBuildTest.ino
+            - ${{ matrix.additional-sketch-paths }}
             # - /home/runner/Arduino/libraries/Arduino-IRremote/examples/SendDemo/SendDemo.ino
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
