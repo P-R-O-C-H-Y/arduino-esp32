@@ -36,9 +36,9 @@ jobs:
           - board:
               fqbn: esp32:esp32:esp32
             additional-libraries: |
-              - name: Arduino-IRremote
+              - name: IRremote
             additional-sketch-paths: |
-              - /home/runner/Arduino/libraries/Arduino-IRremote/examples/SendDemo/SendDemo.ino
+              - /home/runner/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino
           # - board:
           #    fqbn: esp32:esp32:esp32s2
           #  additional-libraries: |
@@ -94,7 +94,7 @@ jobs:
             - /home/runner/Arduino/libraries/FastLED/examples/Blink/Blink.ino
             - /home/runner/Arduino/libraries/Blynk/tests/BlynkBuildTest/BlynkBuildTest.ino
             ${{ matrix.additional-sketch-paths }}
-            # - /home/runner/Arduino/libraries/Arduino-IRremote/examples/SendDemo/SendDemo.ino
+            # - /home/runner/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
           enable-warnings-report: true
