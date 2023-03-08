@@ -27,10 +27,10 @@ jobs:
         # - name: Blynk 
 
       UNIVERSAL_SKETCHES: 
-        # List of sketches to build (1 for each library) separated by ,
-        ~/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest/strandtest.ino,
-        ~/Arduino/libraries/FastLED/examples/Blink/Blink.ino,
-        ~/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino,
+        # List of sketches to build (1 for each library)
+        ~/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest/strandtest.ino
+        ~/Arduino/libraries/FastLED/examples/Blink/Blink.ino
+        ~/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino
         ~/Arduino/libraries/ESP32Servo/examples/Knob/Knob.ino
 
     strategy:
