@@ -24,10 +24,10 @@ jobs:
         # no compilable example found
         # - name: Blynk 
       UNIVERSAL_SKETCHES: 
-        - /home/runner/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest/strandtest.ino
-        - /home/runner/Arduino/libraries/FastLED/examples/Blink/Blink.ino
-        - /home/runner/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino
-        - /home/runner/Arduino/libraries/ESP32Servo/examples/Knob/Knob.ino
+        /home/runner/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest/strandtest.ino,
+        /home/runner/Arduino/libraries/FastLED/examples/Blink/Blink.ino,
+        /home/runner/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino,
+        /home/runner/Arduino/libraries/ESP32Servo/examples/Knob/Knob.ino
 
     strategy:
       matrix:
