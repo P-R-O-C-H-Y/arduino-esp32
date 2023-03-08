@@ -99,7 +99,7 @@ jobs:
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
           enable-warnings-report: true
           cli-compile-flags: |
-            - --warnings="default"
+            - --warnings="all"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
