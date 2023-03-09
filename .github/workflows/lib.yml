@@ -7,7 +7,7 @@ on:
 env:
   # It's convenient to set variables for values used multiple times in the workflow
   SKETCHES_REPORTS_PATH: libraries-report
-  SKETCHES_REPORTS_ARTIFACT_NAME: libraties-report
+  SKETCHES_REPORTS_ARTIFACT_NAME: libraries-report
 jobs:
   compile-sketch:
     runs-on: ubuntu-latest
@@ -104,8 +104,9 @@ jobs:
           name: ${{ env.SKETCHES_REPORTS_ARTIFACT_NAME }}
           path: ${{ env.SKETCHES_REPORTS_PATH }}
 
-  report:
+  report comment:
     needs: compile-sketch  # Wait for the compile job to finish to get the data for the report
+    # if: github.event_name == 'schedule' # to be set later
     if: github.event_name == 'pull_request' # Only run the job when the workflow is triggered by a pull request
     runs-on: ubuntu-latest
     steps:
@@ -120,4 +121,32 @@ jobs:
         uses: P-R-O-C-H-Y/report-size-deltas@main
         with:
           sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
+
+  report to file:
+    needs: compile-sketch  # Wait for the compile job to finish to get the data for the report
+    # if: github.event_name == 'schedule' # to be set later
+    if: github.event_name == 'push' # Only run the job when the workflow is triggered by a push
+    runs-on: ubuntu-latest
+    steps:
+      # This step is needed to get the size data produced by the compile jobs
+      - name: Download sketches reports artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.SKETCHES_REPORTS_ARTIFACT_NAME }}
+          path: ${{ env.SKETCHES_REPORTS_PATH }}
+
+      - name: Report results
+        uses: P-R-O-C-H-Y/report-size-deltas@main
+        with:
+          sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
+          destination-file: LIBRARY_TEST.md
+
+      - name: Checkout repository    
+        uses: actions/checkout@v3
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
 
