@@ -1,0 +1,223 @@
+{
+  "commit_hash": "4a2cd977b2deff1491a13d52cac1a070471b5d72",
+  "commit_url": "https://github.com/P-R-O-C-H-Y/arduino-esp32/commit/4a2cd977b2deff1491a13d52cac1a070471b5d72",
+  "boards": [
+    {
+      "board": "esp32:esp32:esp32c3",
+      "sketches": [
+        {
+          "name": "/home/runner/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest",
+          "compilation_success": true,
+          "sizes": [
+            {
+              "name": "flash",
+              "maximum": 1310720,
+              "current": {
+                "absolute": 235106,
+                "relative": 17.94
+              },
+              "previous": {
+                "absolute": 235106,
+                "relative": 17.94
+              },
+              "delta": {
+                "absolute": 0,
+                "relative": 0.0
+              }
+            },
+            {
+              "name": "RAM for global variables",
+              "maximum": 327680,
+              "current": {
+                "absolute": 15712,
+                "relative": 4.79
+              },
+              "previous": {
+                "absolute": 15712,
+                "relative": 4.79
+              },
+              "delta": {
+                "absolute": 0,
+                "relative": 0.0
+              }
+            }
+          ],
+          "warnings": {
+            "current": {
+              "absolute": 0
+            },
+            "previous": {
+              "absolute": 0
+            },
+            "delta": {
+              "absolute": 0
+            }
+          }
+        },
+        {
+          "name": "/home/runner/Arduino/libraries/FastLED/examples/Blink",
+          "compilation_success": true,
+          "sizes": [
+            {
+              "name": "flash",
+              "maximum": 1310720,
+              "current": {
+                "absolute": 220570,
+                "relative": 16.83
+              },
+              "previous": {
+                "absolute": 220570,
+                "relative": 16.83
+              },
+              "delta": {
+                "absolute": 0,
+                "relative": 0.0
+              }
+            },
+            {
+              "name": "RAM for global variables",
+              "maximum": 327680,
+              "current": {
+                "absolute": 15768,
+                "relative": 4.81
+              },
+              "previous": {
+                "absolute": 15768,
+                "relative": 4.81
+              },
+              "delta": {
+                "absolute": 0,
+                "relative": 0.0
+              }
+            }
+          ],
+          "warnings": {
+            "current": {
+              "absolute": 0
+            },
+            "previous": {
+              "absolute": 0
+            },
+            "delta": {
+              "absolute": 0
+            }
+          }
+        },
+        {
+          "name": "/home/runner/Arduino/libraries/IRremote/examples/SendDemo",
+          "compilation_success": false,
+          "sizes": [
+            {
+              "name": "flash",
+              "maximum": "N/A",
+              "current": {
+                "absolute": "N/A",
+                "relative": "N/A"
+              }
+            },
+            {
+              "name": "RAM for global variables",
+              "maximum": "N/A",
+              "current": {
+                "absolute": "N/A",
+                "relative": "N/A"
+              }
+            }
+          ],
+          "warnings": {
+            "current": {
+              "absolute": "N/A"
+            }
+          }
+        },
+        {
+          "name": "/home/runner/Arduino/libraries/ESP32Servo/examples/Knob",
+          "compilation_success": true,
+          "sizes": [
+            {
+              "name": "flash",
+              "maximum": 1310720,
+              "current": {
+                "absolute": 240266,
+                "relative": 18.33
+              },
+              "previous": {
+                "absolute": 240266,
+                "relative": 18.33
+              },
+              "delta": {
+                "absolute": 0,
+                "relative": 0.0
+              }
+            },
+            {
+              "name": "RAM for global variables",
+              "maximum": 327680,
+              "current": {
+                "absolute": 15968,
+                "relative": 4.87
+              },
+              "previous": {
+                "absolute": 15968,
+                "relative": 4.87
+              },
+              "delta": {
+                "absolute": 0,
+                "relative": 0.0
+              }
+            }
+          ],
+          "warnings": {
+            "current": {
+              "absolute": 0
+            },
+            "previous": {
+              "absolute": 0
+            },
+            "delta": {
+              "absolute": 0
+            }
+          }
+        }
+      ],
+      "sizes": [
+        {
+          "name": "flash",
+          "maximum": 1310720,
+          "delta": {
+            "absolute": {
+              "minimum": 0,
+              "maximum": 0
+            },
+            "relative": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            }
+          }
+        },
+        {
+          "name": "RAM for global variables",
+          "maximum": 327680,
+          "delta": {
+            "absolute": {
+              "minimum": 0,
+              "maximum": 0
+            },
+            "relative": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            }
+          }
+        }
+      ],
+      "warnings": {
+        "delta": {
+          "absolute": {
+            "minimum": 0,
+            "maximum": 0
+          }
+        }
+      }
+    }
+  ]
+}
