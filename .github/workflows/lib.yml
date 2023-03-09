@@ -104,7 +104,7 @@ jobs:
           name: ${{ env.SKETCHES_REPORTS_ARTIFACT_NAME }}
           path: ${{ env.SKETCHES_REPORTS_PATH }}
 
-  report comment:
+  report-comment:
     needs: compile-sketch  # Wait for the compile job to finish to get the data for the report
     # if: github.event_name == 'schedule' # to be set later
     if: github.event_name == 'pull_request' # Only run the job when the workflow is triggered by a pull request
@@ -122,7 +122,7 @@ jobs:
         with:
           sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
 
-  report to file:
+  report-to-file:
     needs: compile-sketch  # Wait for the compile job to finish to get the data for the report
     # if: github.event_name == 'schedule' # to be set later
     if: github.event_name == 'push' # Only run the job when the workflow is triggered by a push
