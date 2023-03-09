@@ -128,6 +128,10 @@ jobs:
     if: github.event_name == 'push' # Only run the job when the workflow is triggered by a push
     runs-on: ubuntu-latest
     steps:
+      # Check out repository
+      - name: Checkout repository    
+        uses: actions/checkout@v3
+
       # This step is needed to get the size data produced by the compile jobs
       - name: Download sketches reports artifact
         uses: actions/download-artifact@v3
@@ -141,8 +145,7 @@ jobs:
           sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
           destination-file: LIBRARY_TEST.md
 
-      - name: Checkout repository    
-        uses: actions/checkout@v3
+      - name: Push to github repo
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
