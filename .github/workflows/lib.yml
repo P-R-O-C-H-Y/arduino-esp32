@@ -2,8 +2,13 @@ name: Compile External Libraries - ESP32
 
 # The workflow will run on every push and pull request to the repository
 on:
-  push:
-  #pull_request:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
+  # Schedule weekly builds on every Sunday at 4 am
+  schedule:
+    - cron: '0 4 * * 0' 
+
 env:
   # It's convenient to set variables for values used multiple times in the workflow
   SKETCHES_REPORTS_PATH: libraries-report
@@ -11,6 +16,10 @@ env:
   RESULT_LIBRARY_TEST_FILE: LIBRARY_TEST.md
 jobs:
   compile-sketch:
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'lib_test') ||
+      (github.event_name == 'schedule' && github.repository == 'espressif/arduino-esp32')
+    
     runs-on: ubuntu-latest
 
     env:
@@ -107,7 +116,6 @@ jobs:
 
   report-comment:
     needs: compile-sketch  # Wait for the compile job to finish to get the data for the report
-    # if: github.event_name == 'schedule' # to be set later
     if: github.event_name == 'pull_request' # Only run the job when the workflow is triggered by a pull request
     runs-on: ubuntu-latest
     steps:
@@ -125,8 +133,7 @@ jobs:
 
   report-to-file:
     needs: compile-sketch  # Wait for the compile job to finish to get the data for the report
-    # if: github.event_name == 'schedule' # to be set later
-    if: github.event_name == 'push' # Only run the job when the workflow is triggered by a push
+    if: github.event_name == 'schedule' # Only run the job when the workflow is triggered by a schedule
     runs-on: ubuntu-latest
     steps:
       # Check out repository
