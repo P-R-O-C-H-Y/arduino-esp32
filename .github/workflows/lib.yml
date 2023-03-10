@@ -158,7 +158,7 @@ jobs:
         with:
           path: ${{ env.RESULT_LIBRARY_TEST_FILE }}
           contents: |
-            [GitHub Action Link](https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}})
+            [GitHub Action Link](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
           write-mode: append
 
       - name: Push to github repo
