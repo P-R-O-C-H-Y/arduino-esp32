@@ -18,7 +18,8 @@ jobs:
   compile-sketch:
     if: |
       contains(github.event.pull_request.labels.*.name, 'lib_test') ||
-      (github.event_name == 'schedule' && github.repository == 'espressif/arduino-esp32')
+      (github.event_name == 'schedule' && github.repository == 'espressif/arduino-esp32') ||
+      (github.event_name == 'schedule' && github.repository == 'P-R-O-C-H-Y/arduino-esp32') #added for testing purpose
     
     runs-on: ubuntu-latest
 
