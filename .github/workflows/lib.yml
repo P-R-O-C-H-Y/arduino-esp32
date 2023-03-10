@@ -146,11 +146,19 @@ jobs:
           sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
           destination-file: ${{ env.RESULT_LIBRARY_TEST_FILE }}
 
+      - name: Append file with action URL
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: ${{ env.RESULT_LIBRARY_TEST_FILE }}
+          contents: |
+            [GitHub Action Link](https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}})
+          write-mode: append
+
       - name: Push to github repo
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add ${{ env.RESULT_LIBRARY_TEST_FILE }}
-          git commit -m "generated"
+          git commit -m "Generated External Libraries Test Results"
           git push
 
