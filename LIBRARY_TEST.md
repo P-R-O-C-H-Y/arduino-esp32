@@ -10,5 +10,4 @@ ESP32Servo|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check
 
 Generated on: Mar-10-2023 13:58:56
 
-[GitHub Action Link](https://github.com/P-R-O-C-H-Y/arduino-esp32/commit/2c854a3175683b4f676d70c457ee5f20202fee59/checks/4385145377)
 [GitHub Action Link](https://github.com/P-R-O-C-H-Y/arduino-esp32/actions/runs/4403518170)
