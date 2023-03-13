@@ -3,7 +3,7 @@ name: Compile External Libraries Agains ESP32 Arduino Core
 # The workflow will run on every push and pull request to the repository
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
+  #  types: [opened, reopened, synchronize, labeled]
 
   push:
   # Schedule weekly builds on every Sunday at 4 am
