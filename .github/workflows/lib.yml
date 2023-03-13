@@ -168,7 +168,6 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git pull
           git add ${{ env.RESULT_LIBRARY_TEST_FILE }}
           git commit -m "Generated External Libraries Test Results"
           git push
