@@ -5,9 +5,10 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, labeled]
 
+  push:
   # Schedule weekly builds on every Sunday at 4 am
-  schedule:
-    - cron: '0 4 * * 0' 
+  #schedule:
+  #  - cron: '0 4 * * 0' 
 
 env:
   # It's convenient to set variables for values used multiple times in the workflow
@@ -16,10 +17,10 @@ env:
   RESULT_LIBRARY_TEST_FILE: LIBRARY_TEST.md
 jobs:
   compile-sketch:
-    if: |
-      contains(github.event.pull_request.labels.*.name, 'lib_test') ||
-      (github.event_name == 'schedule' && github.repository == 'espressif/arduino-esp32') ||
-      (github.event_name == 'schedule' && github.repository == 'P-R-O-C-H-Y/arduino-esp32') #added for testing purpose
+    #if: |
+    #  contains(github.event.pull_request.labels.*.name, 'lib_test') ||
+    #  (github.event_name == 'schedule' && github.repository == 'espressif/arduino-esp32') ||
+    #  (github.event_name == 'schedule' && github.repository == 'P-R-O-C-H-Y/arduino-esp32') #added for testing purpose
     
     runs-on: ubuntu-latest
 
@@ -134,7 +135,7 @@ jobs:
 
   report-to-file:
     needs: compile-sketch  # Wait for the compile job to finish to get the data for the report
-    if: github.event_name == 'schedule' # Only run the job when the workflow is triggered by a schedule
+    if: github.event_name == 'push' # Only run the job when the workflow is triggered by a schedule
     runs-on: ubuntu-latest
     steps:
       # Check out repository
