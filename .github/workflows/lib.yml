@@ -1,4 +1,4 @@
-name: Compile External Libraries Agains ESP32 Arduino Core
+name: External Libraries Test
 
 # The workflow will run on every push and pull request to the repository
 on:
