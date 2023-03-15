@@ -8,8 +8,8 @@ About
 External libraries test is running periodicaly (once a week) agains master branch and can run on PR by adding a label "lib_test".
 The test is running on all supported ESP32 chips.
 
-How to Add Library
-------------------
+How to Add Library to Test
+--------------------------
 
 
 1. Add new line with the library name to the list of UNIVERSAL_LIBRARIES in lib.yml file:
