@@ -11,6 +11,7 @@ The test is running on all supported ESP32 chips.
 How to Add Library
 ------------------
 
+
 1. Add new line with the library name to the list of UNIVERSAL_LIBRARIES in lib.yml file:
    
   .. code-block:: yaml
@@ -36,7 +37,7 @@ How to Add Library
 
 3. Open a PR with the changes and someone from Espressif team will add a label "lib_test" to the PR and CI will run the 
    test to check, if the addition is fine and library / example are compiling.
-   
+
 4. After merging your PR, the next scheduled test will test your library and add the results to the "LIBRARIES_TEST.md" file.
 
 Test Results
@@ -45,12 +46,13 @@ Test Results
 Icons meaning
 *************
 
-|success| Compilation was successful.
+* |success| - Compilation was successful.
 
-|warning| Compilation was successful with some warnings. (number of warnings is printed next to the icon)
+* |warning| - Compilation was successful with some warnings. (number of warnings is printed next to the icon)
 
-|fail| Compilation failed.
+* |fail| - Compilation failed.
 
+* ``N/A`` - Not tested.
 
 Scheduled test result example
 *****************************

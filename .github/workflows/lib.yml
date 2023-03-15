@@ -8,7 +8,7 @@ on:
   push:
   # Schedule weekly builds on every Sunday at 4 am
   #schedule:
-  #  - cron: '0 4 * * 0' 
+  #  - cron: '0 4 * * SUN' 
 
 env:
   # It's convenient to set variables for values used multiple times in the workflow
@@ -20,7 +20,6 @@ jobs:
     #if: |
     #  contains(github.event.pull_request.labels.*.name, 'lib_test') ||
     #  (github.event_name == 'schedule' && github.repository == 'espressif/arduino-esp32') ||
-    #  (github.event_name == 'schedule' && github.repository == 'P-R-O-C-H-Y/arduino-esp32') #added for testing purpose
     
     runs-on: ubuntu-latest
 
@@ -51,7 +50,8 @@ jobs:
           - esp32:esp32:esp32c3
           - esp32:esp32:esp32s3
 
-        # compile only the examples compatible with each board
+        # compile only the libraries/examples compatible with specific chip
+        # use when some chip dont have the peripheral which is used in library (eg. ESP32-S2 dont have BLE, so it is not tested)
         include:
           - fqbn: esp32:esp32:esp32
             additional-libraries: |
@@ -99,7 +99,7 @@ jobs:
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
           enable-warnings-report: true
-          verbose: true
+          #verbose: true
           cli-compile-flags: |
             - --warnings="all"
 
