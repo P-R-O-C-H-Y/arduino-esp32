@@ -57,7 +57,7 @@ jobs:
             additional-libraries: |
               - name: ArduinoBLE
             additional-sketches: |
-              - ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+              ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
           - fqbn: esp32:esp32:esp32s2
             additional-libraries:
             additional-sketches:
@@ -65,12 +65,12 @@ jobs:
             additional-libraries: |
               - name: ArduinoBLE
             additional-sketches: |
-              - ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+              ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
           - fqbn: esp32:esp32:esp32s3
             additional-libraries: |
               - name: ArduinoBLE
             additional-sketches: |
-              - ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+              ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
 
     steps:
       # This step makes the contents of the repository available to the workflow
