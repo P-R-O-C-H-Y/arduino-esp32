@@ -45,28 +45,28 @@ jobs:
     strategy:
       matrix:
         fqbn:
-          - esp32:esp32:esp32
-          - esp32:esp32:esp32s2
-          - esp32:esp32:esp32c3
-          - esp32:esp32:esp32s3
+          - espressif:esp32:esp32
+          - espressif:esp32:esp32s2
+          - espressif:esp32:esp32c3
+          - espressif:esp32:esp32s3
 
         # compile only the libraries/examples compatible with specific chip
         # use when some chip dont have the peripheral which is used in library (eg. ESP32-S2 dont have BLE, so it is not tested)
         include:
-          - fqbn: esp32:esp32:esp32
+          - fqbn: espressif:esp32:esp32
             additional-libraries: |
               - name: ArduinoBLE
             additional-sketches: |
               ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
-          - fqbn: esp32:esp32:esp32s2
+          - fqbn: espressif:esp32:esp32s2
             additional-libraries:
             additional-sketches:
-          - fqbn: esp32:esp32:esp32c3
+          - fqbn: espressif:esp32:esp32c3
             additional-libraries: |
               - name: ArduinoBLE
             additional-sketches: |
               ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
-          - fqbn: esp32:esp32:esp32s3
+          - fqbn: espressif:esp32:esp32s3
             additional-libraries: |
               - name: ArduinoBLE
             additional-sketches: |
