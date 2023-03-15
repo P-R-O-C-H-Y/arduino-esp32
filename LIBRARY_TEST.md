@@ -6,7 +6,8 @@ Adafruit_NeoPixel|:white_check_mark:|:white_check_mark:|:white_check_mark:|:whit
 FastLED|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:
 IRremote|:warning: 1|:x:|:white_check_mark:|:white_check_mark:
 ESP32Servo|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:
+ArduinoBLE|:white_check_mark:|:white_check_mark:|N/A|:white_check_mark:
 
 
-Generated on: Mar-14-2023 12:49:00
-/ [GitHub Action Link](https://github.com/P-R-O-C-H-Y/arduino-esp32/actions/runs/4415771757)
+Generated on: Mar-15-2023 08:53:35
+/ [GitHub Action Link](https://github.com/P-R-O-C-H-Y/arduino-esp32/actions/runs/4424368315)
