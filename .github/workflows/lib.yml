@@ -25,21 +25,19 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # libraries to install for all boards
+      # Libraries list to be installed
       UNIVERSAL_LIBRARIES: |
-        # Install the libraries
         - source-path: ./
         - name: Adafruit NeoPixel
         - name: FastLED
         - name: IRremote
         - name: ESP32Servo
 
-
         # Libs with no compilable example found
         # - name: Blynk 
 
+      # List of sketches to build (1 for each library)
       UNIVERSAL_SKETCHES: 
-        # List of sketches to build (1 for each library)
         ~/Arduino/libraries/Adafruit_NeoPixel/examples/strandtest/strandtest.ino
         ~/Arduino/libraries/FastLED/examples/Blink/Blink.ino
         ~/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino
@@ -54,33 +52,25 @@ jobs:
           - esp32:esp32:esp32s3
 
         # compile only the examples compatible with each board
-        #include:
-          #- board:
-          #    fqbn: esp32:esp32:esp32
-          #  additional-libraries: |
-          #    - name: IRremote
-          #  additional-sketch-paths: |
-          #    - /home/runner/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino
-          #- board:
-          #    fqbn: esp32:esp32:esp32s2
-          #  additional-libraries: |
-          #    - name: lvgl
-          #  additional-sketch-paths: |
-          #    - libraries/doom
-          #    fqbn: esp32:esp32:esp32c3
-          #- board:
-          #  additional-libraries: |
-          #    - name: ArduinoBLE
-          #  additional-sketch-paths: |
-          #    - ~/Arduino/libraries/ArduinoBLE
-          #- board:
-          #    fqbn: esp32:esp32:esp32s3
-          #  additional-libraries: |
-          #    - name: ArduinoBLE
-          #    - name: STM32duino LSM6DSOX
-          #  additional-sketch-paths: |
-          #    - ~/Arduino/libraries/WiFiNINA
-          #    - ~/Arduino/libraries/ArduinoBLE
+        include:
+          - fqbn: esp32:esp32:esp32
+            additional-libraries: |
+              - name: ArduinoBLE
+            additional-sketches: |
+              - ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+          - fqbn: esp32:esp32:esp32s2
+            additional-libraries:
+            additional-sketches:
+          - fqbn: esp32:esp32:esp32c3
+            additional-libraries: |
+              - name: ArduinoBLE
+            additional-sketches: |
+              - ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+          - fqbn: esp32:esp32:esp32s3
+            additional-libraries: |
+              - name: ArduinoBLE
+            additional-sketches: |
+              - ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
 
     steps:
       # This step makes the contents of the repository available to the workflow
@@ -102,8 +92,10 @@ jobs:
           fqbn: ${{ matrix.fqbn }}
           libraries: |
             ${{ env.UNIVERSAL_LIBRARIES }}
+            ${{ matrix.additional-libraries }}
           sketch-paths: |
             ${{ env.UNIVERSAL_SKETCHES }}
+            ${{ matrix.additional-sketches }}
           enable-deltas-report: true
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
           enable-warnings-report: true
