@@ -11,8 +11,10 @@ The test is running on all supported ESP32 chips.
 How to Add Library to Test
 --------------------------
 
+Library uses peripheral which is has all chips
+**********************************************
 
-1. Add new line with the library name to the list of UNIVERSAL_LIBRARIES in lib.yml file:
+* Add new line with the library name to the list of UNIVERSAL_LIBRARIES in lib.yml file:
    
   .. code-block:: yaml
 
@@ -24,7 +26,7 @@ How to Add Library to Test
       - name: IRremote
       - name: ESP32Servo
 
-2. Add new line with the sketch path to the list of UNIVERSAL_SKETCHES in lib.yml file (sketch needs to be from the examples of the library):
+* Add new line with the sketch path to the list of UNIVERSAL_SKETCHES in lib.yml file (sketch needs to be from the examples of the library):
    
   .. code-block:: yaml
 
@@ -35,10 +37,47 @@ How to Add Library to Test
       ~/Arduino/libraries/IRremote/examples/SendDemo/SendDemo.ino
       ~/Arduino/libraries/ESP32Servo/examples/Knob/Knob.ino
 
-3. Open a PR with the changes and someone from Espressif team will add a label "lib_test" to the PR and CI will run the 
+* Open a PR with the changes and someone from Espressif team will add a label "lib_test" to the PR and CI will run the 
    test to check, if the addition is fine and library / example are compiling.
 
-4. After merging your PR, the next scheduled test will test your library and add the results to the "LIBRARIES_TEST.md" file.
+* After merging your PR, the next scheduled test will test your library and add the results to the "LIBRARIES_TEST.md" file.
+
+Library uses peripheral specific to some chips
+**********************************************
+
+* Add new line with the library name to the list of additional-libraries: under each SOC which supports the peripheral used by library in lib.yml file:
+   
+* Add new line with the sketch path to the list of additional-sketches under each SOC which supports the peripheral in lib.yml file 
+   (sketch needs to be from the examples of the library):
+   
+  Example for adding ArduinoBLE library (ESP32-S2 dont have BLE peripheral)
+
+  .. code-block:: yaml
+
+    include:
+      - fqbn: espressif:esp32:esp32
+        additional-libraries: |
+          - name: ArduinoBLE
+        additional-sketches: |
+          ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+      - fqbn: espressif:esp32:esp32s2
+        additional-libraries:
+        additional-sketches:
+      - fqbn: espressif:esp32:esp32c3
+        additional-libraries: |
+          - name: ArduinoBLE
+        additional-sketches: |
+          ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+      - fqbn: espressif:esp32:esp32s3
+        additional-libraries: |
+          - name: ArduinoBLE
+        additional-sketches: |
+          ~/Arduino/libraries/ArduinoBLE/examples/Central/Scan/Scan.ino
+
+* Open a PR with the changes and someone from Espressif team will add a label "lib_test" to the PR and CI will run the 
+   test to check, if the addition is fine and library / example are compiling.
+
+* After merging your PR, the next scheduled test will test your library and add the results to the "LIBRARIES_TEST.md" file.
 
 Test Results
 ------------
