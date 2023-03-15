@@ -88,7 +88,7 @@ jobs:
         with:
           platforms: |
             - source-path: '.'
-              name: "esp32:esp32"
+              name: "espressif:esp32"
           fqbn: ${{ matrix.fqbn }}
           libraries: |
             ${{ env.UNIVERSAL_LIBRARIES }}
