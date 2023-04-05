@@ -25,12 +25,16 @@ jobs:
        github.event.workflow_run.conclusion == 'failure')
 
     steps:
-      # This step is needed to get the size data produced by the compile jobs
-      - name: Download sketches reports artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.SKETCHES_REPORTS_ARTIFACT_NAME }}
-          path: ${{ env.SKETCHES_REPORTS_PATH }}
+      - name: Download and Extract Artifacts
+        run: |
+          mkdir -p libraries-report && cd libraries-report
+          artifacts_url=${{ github.event.workflow_run.artifacts_url }}
+          gh api "$artifacts_url" -q '.artifacts[] | [.name, .archive_download_url] | @tsv' | while read artifact
+          do
+            IFS=$'\t' read name url <<< "$artifact"
+            gh api $url > "$name.zip"
+            unzip -d "$name" "$name.zip"
+          done
 
       - name: Report results
         uses: P-R-O-C-H-Y/report-size-deltas@main
