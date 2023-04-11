@@ -8,7 +8,7 @@ on:
 env:
   # It's convenient to set variables for values used multiple times in the workflow
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  
+
 jobs:
   compile-sketch:
     if: |
@@ -49,8 +49,8 @@ jobs:
       - name: Get board name
         run:
 
-          gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch | @tsv'
-
+          patch=gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
+          echo $patch
           # # check if jq is installed
           # if ! command -v jq &> /dev/null; then
           #     echo "jq is not installed. Please install jq before running this script."
