@@ -20,23 +20,23 @@ jobs:
         - source-path: '.'
           name: "espressif:esp32"
 
-    strategy:
-      matrix:
-        target:
-          - esp32
-          - esp32s2
-          - esp32c3
-          - esp32s3
+    # strategy:
+    #   matrix:
+    #     target:
+        #   - esp32
+        #   - esp32s2
+        #   - esp32c3
+        #   - esp32s3
 
-        include:
-          - target: esp32
-            fqbn: espressif:esp32:esp32
-          - target: esp32s2
-            fqbn: espressif:esp32:esp32s2
-          - target: esp32c3
-            fqbn: espressif:esp32:esp32c3
-          - target: esp32s3
-            fqbn: espressif:esp32:esp32s3
+        # include:
+        #   - target: esp32
+        #     fqbn: espressif:esp32:esp32
+        #   - target: esp32s2
+        #     fqbn: espressif:esp32:esp32s2
+        #   - target: esp32c3
+        #     fqbn: espressif:esp32:esp32c3
+        #   - target: esp32s3
+        #     fqbn: espressif:esp32:esp32s3
 
     steps:
       # This step makes the contents of the repository available to the workflow
@@ -49,7 +49,7 @@ jobs:
       - name: Get board name
         run:
 
-          patch=gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
+          gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
           echo $patch
           # # check if jq is installed
           # if ! command -v jq &> /dev/null; then
