@@ -51,12 +51,7 @@ jobs:
       - name: Get board name
         run:
 
-          gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch | @tsv' | while read patch
-          do
-            echo $patch
-            line_num= $patch | grep "^+" | cut -d'+' -f2
-            echo $line_num
-          done
+          gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch | @tsv'
 
           # # check if jq is installed
           # if ! command -v jq &> /dev/null; then
