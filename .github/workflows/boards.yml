@@ -49,7 +49,7 @@ jobs:
       - name: Get board name
         run:
 
-          gh api "/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
+          patch = $(gh api "/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch ')
           
           echo $patch
           # # check if jq is installed
