@@ -53,7 +53,7 @@ jobs:
 
           Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
-          line_num= $Patch | grep \"^+\" | cut -d'+' -f2\n+\n+    
+          line_num= $Patch | grep \"^+\" | cut -d'+' -f2 
 
           echo $line_num
           # # check if jq is installed
