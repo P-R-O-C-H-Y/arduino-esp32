@@ -51,9 +51,9 @@ jobs:
 
           # gh api "/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
 
-          Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
+          IP=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
-          line_num= $Patch | grep \"^+\" | cut -d'+' -f2 
+          line_num=$IP | grep \"^+\" | cut -d'+' -f2 
 
           echo $line_num
           # # check if jq is installed
