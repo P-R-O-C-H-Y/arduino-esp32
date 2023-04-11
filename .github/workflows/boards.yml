@@ -1,0 +1,88 @@
+name: Boards Addition Test
+
+# The workflow will run on schedule and labeled pull requests
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
+env:
+  # It's convenient to set variables for values used multiple times in the workflow
+  SKETCHES_REPORTS_PATH: libraries-report
+  SKETCHES_REPORTS_ARTIFACT_NAME: libraries-report
+  RESULT_LIBRARY_TEST_FILE: LIBRARIES_TEST.md
+  JSON_LIBRARY_LIST_FILE: .github/workflows/lib.json
+jobs:
+  compile-sketch:
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'board_test')
+    runs-on: ubuntu-latest
+
+    env:
+      REPOSITORY: |
+        - source-path: '.'
+          name: "espressif:esp32"
+
+    strategy:
+      matrix:
+        target:
+          - esp32
+          - esp32s2
+          - esp32c3
+          - esp32s3
+
+        include:
+          - target: esp32
+            fqbn: espressif:esp32:esp32
+          - target: esp32s2
+            fqbn: espressif:esp32:esp32s2
+          - target: esp32c3
+            fqbn: espressif:esp32:esp32c3
+          - target: esp32s3
+            fqbn: espressif:esp32:esp32s3
+
+    steps:
+      # This step makes the contents of the repository available to the workflow
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      #- name: 'Setup jq'
+      #  uses: dcarbone/install-jq-action@v1.0.1
+
+      - name: Get board name
+        run:
+
+          gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch | @tsv' | while read patch
+          do
+            echo $patch
+            line_num= $patch | grep "^+" | cut -d'+' -f2
+            echo $line_num
+          done
+
+          # # check if jq is installed
+          # if ! command -v jq &> /dev/null; then
+          #     echo "jq is not installed. Please install jq before running this script."
+          #     exit 1
+          # fi
+
+          # # extract the patch field for filename "boards.txt"
+          # patch=$(jq -r '.[] | select(.filename == "boards.txt") | .patch' $json_file)
+
+          # line_num= $patch | grep "^+" | cut -d'+' -f2
+
+          # echo $line_num
+
+          # LINE=`awk 'NR==$line_num' boards.txt`
+
+      # - name: Compile sketch
+      #   uses: P-R-O-C-H-Y/compile-sketches@main
+      #   with:
+      #     platforms: |
+      #       ${{ env.REPOSITORY }}
+      #     target: ${{ matrix.target }}
+      #     fqbn: ${{ matrix.fqbn }}
+      #     use-json-file: false
+      #     enable-deltas-report: false
+      #     enable-warnings-report: false
+      #     cli-compile-flags: |
+      #       - --warnings="all"
+      #     exit-on-fail: true
