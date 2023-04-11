@@ -53,6 +53,8 @@ jobs:
 
           IP=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
+          echo $IP
+          
           line_num=$IP | grep \"^+\" | cut -d'+' -f2 
 
           echo $line_num
