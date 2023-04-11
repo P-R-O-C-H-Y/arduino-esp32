@@ -50,6 +50,7 @@ jobs:
         run:
 
           gh api "/repos/espressif/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
+          
           echo $patch
           # # check if jq is installed
           # if ! command -v jq &> /dev/null; then
