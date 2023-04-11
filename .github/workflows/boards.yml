@@ -55,9 +55,9 @@ jobs:
 
           echo $Patch
 
-          # line_num=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f1 )
+          line_num=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f1 )
         
-          # echo $line_num
+          echo $line_num
 
           IFS='\n' read -r -a array <<< "$Patch"
 
