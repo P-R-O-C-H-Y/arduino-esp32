@@ -61,7 +61,10 @@ jobs:
 
           IFS='\n \n' read -r -a array <<< "$Patch"
 
-          echo ${array[0]}
+          for index in "${!array[@]}"
+          do
+              echo "$index ${array[index]}"
+          done
 
           # # check if jq is installed
           # if ! command -v jq &> /dev/null; then
