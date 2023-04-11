@@ -49,9 +49,11 @@ jobs:
       - name: Get board name
         run:
 
-          patch = $(gh api "/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch ')
+          # gh api "/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
           
-          echo $patch
+          IP=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | -jq -r '.[] | select(.filename == "boards.txt") | .patch ')
+
+          echo $IP
           # # check if jq is installed
           # if ! command -v jq &> /dev/null; then
           #     echo "jq is not installed. Please install jq before running this script."
