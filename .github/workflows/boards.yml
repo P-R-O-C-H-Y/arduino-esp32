@@ -43,7 +43,7 @@ jobs:
       # - name: Checkout repository
       #   uses: actions/checkout@v3
 
-      - name: 'Setup jq'
+      - name: Setup jq
         uses: dcarbone/install-jq-action@v1.0.1
 
       - name: Get board name
