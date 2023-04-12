@@ -63,9 +63,9 @@ do
     then
         if [ "$board_name" != "$previous_board" ]
         then
-            boards_array+=("$board_name")
+            boards_array+=("espressif:esp32:$board_name")
             previous_board="$board_name"
-            echo "Added '$board_name' to array"
+            echo "Added 'espressif:esp32:$board_name' to array"
         fi
     fi
     done < "$file"
