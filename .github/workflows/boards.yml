@@ -73,7 +73,8 @@ jobs:
 
           i=0
 
-          while read -r line; do
+          while read -r line
+          do
             i=$((i+1))
             if [ $i -lt $addition_line ]
             then
