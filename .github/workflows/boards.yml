@@ -66,8 +66,23 @@ jobs:
           echo $addition_line
 
           echo $addition_count
-          
+
           echo $addition_end
+
+          file="boards.txt"
+          i=0
+          while read -r line; do
+            i=$((i+1))
+            if [ $i -lt $addition_line ]; then
+              continue
+            elif [ $i -gt $addition_end ]; then
+              break
+            fi
+            echo $line
+            # if [ "$line" = "$variable" ]; then
+              # echo "Found the variable '$variable' on line $i: $line"
+            # fi
+          done < "$file"
 
         # - name: Compile sketch
         #   uses: P-R-O-C-H-Y/compile-sketches@main
