@@ -40,14 +40,14 @@ jobs:
 
     steps:
       # This step makes the contents of the repository available to the workflow
-      # - name: Checkout repository
-      #   uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Setup jq
         uses: dcarbone/install-jq-action@v1.0.1
 
       - name: Get board name
-        run:
+        run: 
           Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
           deletion_line=$( echo "$Patch" | cut -d'-' -f2 | cut -d',' -f1 )
