@@ -70,3 +70,12 @@ do
     fi
     done < "$file"
 done
+
+#echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+
+for board in ${boards_array[@]}
+do
+    echo $board
+done
+
+#echo "fqbn_matrix=${CHUNKS}" >>$GITHUB_OUTPUT
