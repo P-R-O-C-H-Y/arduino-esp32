@@ -72,10 +72,31 @@ do
 done
 
 #echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+echo "Step 4:"
 
+# {
+#   "fqbn": [
+#     "esp32",
+#     "esp32s2",
+#     "esp32c3",
+#     "esp32s3"
+#   ]
+# }
+
+board_count=${#boards_array[@]}
+
+json_matrix="{'fqbn':["
 for board in ${boards_array[@]}
 do
-    echo $board
+    $json_matrix+="$board"
+    if [ $board_count > 1 ]
+    then
+        $json_matrix+=","
+    fi
+    $board_count-= 1
 done
+$json_matrix+="]}"
 
-#echo "fqbn_matrix=${CHUNKS}" >>$GITHUB_OUTPUT
+echo $json_matrix
+
+echo "fqbn_matrix=${json_matrix}" >>$GITHUB_OUTPUT
