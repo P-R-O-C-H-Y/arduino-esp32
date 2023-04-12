@@ -48,7 +48,7 @@ jobs:
 
       - name: Get board name
         run: 
-          bash .github/scripts/board_test.sh -n ${{github.event.number}}
+          bash .github/scripts/board_test.sh ${{github.event.number}}
 
         # - name: Compile sketch
         #   uses: P-R-O-C-H-Y/compile-sketches@main
