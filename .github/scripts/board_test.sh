@@ -91,7 +91,7 @@ json_matrix="{'fqbn':["
 for board in ${boards_array[@]}
 do
     json_matrix+="'$board'"
-    if [ $board_count > 1 ]
+    if [ $board_count -gt 1 ]
     then
         json_matrix+=","
     fi
