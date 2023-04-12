@@ -55,9 +55,6 @@ jobs:
           echo "Step 1:"
 
           IFS=$'\n' read -d '' -ra substrings <<< $(echo "$substring_patch" | awk -v RS='@@' 'NR>1{print RT $0 RT}')
-          
-          # declare -a params_array=()
-          # declare -a boards_array=()
 
           echo "Step 1.1:"
 
@@ -148,3 +145,6 @@ jobs:
         #     # echo "Found the variable '$variable' on line $i: $line"
         #   # fi
         # done < "$file"
+
+        # declare -a params_array=()
+        # declare -a boards_array=()
