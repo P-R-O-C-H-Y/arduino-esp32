@@ -50,13 +50,11 @@ jobs:
         run: 
           Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
           
-          substring=$(echo "$Patch" | grep -o '@@[^@]*@@')
+          substring_patch=$(echo "$Patch" | grep -o '@@[^@]*@@')
 
           echo "Step 1:"
 
-          file="boards.txt"
-
-          IFS=$'\n' read -d '' -ra substrings <<< $(echo "$Patch" | awk -v RS='@@' 'NR>1{print RT $0 RT}')
+          IFS=$'\n' read -d '' -ra substrings <<< $(echo "$substring_patch" | awk -v RS='@@' 'NR>1{print RT $0 RT}')
           
           declare -a params_array=()
           declare -a boards_array=()
@@ -74,10 +72,10 @@ jobs:
 
           echo "Step 2:"
           previous_board=""
+          file="boards.txt"
 
           for (( c=0; c<${#params_array[@]}; c+=2 ))
           do
-              echo "Welcome $c times"
               deletion_line=$( echo "${params_array[c]}" | cut -d'-' -f2 | cut -d',' -f1 )
               deletion_count=$( echo "${params_array[c]}" | cut -d',' -f2 | cut -d' ' -f1 )
               addition_line=$( echo "${params_array[c+1]}" | cut -d'+' -f2 | cut -d',' -f1 )
