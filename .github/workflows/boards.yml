@@ -68,9 +68,11 @@ jobs:
           echo $addition_count
 
           echo $addition_end
-          
+
           file="boards.txt"
+
           i=0
+          
           while read -r line; do
             i=$((i+1))
             if [ $i -lt $addition_line ]; then
@@ -79,9 +81,6 @@ jobs:
               break
             fi
             echo $line
-            # if [ "$line" = "$variable" ]; then
-              # echo "Found the variable '$variable' on line $i: $line"
-            # fi
           done < "$file"
 
         # - name: Compile sketch
