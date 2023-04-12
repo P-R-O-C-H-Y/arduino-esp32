@@ -50,12 +50,12 @@ jobs:
         run: 
           Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
           
-          echo $Patch
-          
-          deletion_line=$( echo "$Patch" | cut -d'-' -f2 | cut -d',' -f1 )
-          deletion_count=$( echo "$Patch" | cut -d',' -f2 | cut -d' ' -f1 )
-          addition_line=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f1 )
-          addition_count=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
+          substring=$(echo "$Patch" | grep -o '@@[^@]*@@')
+
+          deletion_line=$( echo "$substring" | cut -d'-' -f2 | cut -d',' -f1 )
+          deletion_count=$( echo "$substring" | cut -d',' -f2 | cut -d' ' -f1 )
+          addition_line=$( echo "$substring" | cut -d'+' -f2 | cut -d',' -f1 )
+          addition_count=$( echo "$substring" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
           
           addition_end=$(($addition_line+$addition_count-$deletion_count))
 
