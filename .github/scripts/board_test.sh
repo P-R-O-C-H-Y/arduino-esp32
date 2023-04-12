@@ -1,16 +1,7 @@
 #!/bin/bash
 
-while [ ! -z "$1" ]; do
-    case $1 in
-    -n )
-        pr_number=$1
-        ;;
-    * )
-      break
-      ;;
-    esac
-    shift
-done
+
+pr_number="$1"
 
 Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/$pr_number/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
