@@ -48,15 +48,12 @@ jobs:
 
       - name: Get board name
         run:
-
-          # gh api "/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" -q '.[] | select(.filename == "boards.txt") | .patch '
-
           Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
-          deletion_line=$( echo "$var" | cut -d'-' -f2 | cut -d',' -f1 )
-          deletion_count=$( echo "$var" | cut -d',' -f2 | cut -d' ' -f1 )
-          addition_line=$( echo "$var" | cut -d'+' -f2 | cut -d',' -f1 )
-          addition_count=$( echo "$var" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
+          deletion_line=$( echo "$Patch" | cut -d'-' -f2 | cut -d',' -f1 )
+          deletion_count=$( echo "$Patch" | cut -d',' -f2 | cut -d' ' -f1 )
+          addition_line=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f1 )
+          addition_count=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
 
           echo $deletion_line
           echo $deletion_count
