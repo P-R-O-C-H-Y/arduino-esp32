@@ -1,9 +1,12 @@
 #!/bin/bash
 
 
-pr_number="$1"
+pr_number=$1
+url="https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/$pr_number/files"
 
-Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/$pr_number/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
+echo $url
+
+Patch=$(curl $url | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
 substring_patch=$(echo "$Patch" | grep -o '@@[^@]*@@')
 
