@@ -52,13 +52,10 @@ jobs:
           
           substring=$(echo "$Patch" | grep -o '@@[^@]*@@')
 
-          addition_line_test="790"
-          addition_line_end="951"
-
           file="boards.txt"
 
           IFS=$'\n' read -d '' -ra substrings <<< $(echo "$Patch" | awk -v RS='@@' 'NR>1{print RT $0 RT}')
-
+          
           declare -a params_array=()
           declare -a boards_array=()
 
@@ -94,10 +91,10 @@ jobs:
               while read -r line
               do
               i=$((i+1))
-              if [ $i -lt $addition_line_test ]
+              if [ $i -lt $addition_line ]
               then
                 continue
-              elif [ $i -gt $addition_line_end ]
+              elif [ $i -gt $addition_end ]
               then
                 break
               fi
