@@ -47,7 +47,7 @@ jobs:
       # This step makes the contents of the repository available to the workflow
       - name: Checkout repository
         uses: actions/checkout@v3
-      
+
       - name: Compile sketch
         uses: P-R-O-C-H-Y/compile-sketches@main
         with:
@@ -61,4 +61,4 @@ jobs:
             - --warnings="all"
           exit-on-fail: true
           sketch-paths:
-            - ./libraries/ESP32/examples/ChipID/GetChipID/GetChipID.ino
+            "- ./libraries/ESP32/examples/ChipID/GetChipID/GetChipID.ino"
