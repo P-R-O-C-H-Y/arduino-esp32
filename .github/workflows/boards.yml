@@ -60,7 +60,7 @@ jobs:
           addition_end=$(($addition_line+$addition_count-$deletion_count))
 
           echo $deletion_line
-
+          
           echo $deletion_count
 
           echo $addition_line
@@ -68,7 +68,7 @@ jobs:
           echo $addition_count
 
           echo $addition_end
-
+          
           file="boards.txt"
           i=0
           while read -r line; do
