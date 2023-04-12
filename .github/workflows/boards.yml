@@ -72,12 +72,14 @@ jobs:
           file="boards.txt"
 
           i=0
-          
+
           while read -r line; do
             i=$((i+1))
-            if [ $i -lt $addition_line ]; then
+            if [ $i -lt $addition_line ]
+            then
               continue
-            elif [ $i -gt $addition_end ]; then
+            elif [ $i -gt $addition_end ]
+            then
               break
             fi
             echo $line
