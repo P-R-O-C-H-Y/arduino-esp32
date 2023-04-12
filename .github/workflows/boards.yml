@@ -67,7 +67,6 @@ jobs:
           # echo $addition_end
           # echo "ADDITION_START=$(echo $addition_line)" >> $GITHUB_ENV
           # echo "ADDITION_END=$(echo $addition_end)" >> $GITHUB_ENV
-
           # file="boards.txt"
           # i=0
           # while read -r line; do
@@ -77,9 +76,7 @@ jobs:
           #   elif [ $i -gt $addition_end ]; then
           #     break
           #   fi
-
           #   echo $line
-
           #   # if [ "$line" = "$variable" ]; then
           #     # echo "Found the variable '$variable' on line $i: $line"
           #   # fi
