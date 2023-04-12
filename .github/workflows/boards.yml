@@ -52,12 +52,18 @@ jobs:
           
           echo $Patch
           
-          # deletion_line=$( echo "$Patch" | cut -d'-' -f2 | cut -d',' -f1 )
-          # deletion_count=$( echo "$Patch" | cut -d',' -f2 | cut -d' ' -f1 )
-          # addition_line=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f1 )
-          # addition_count=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
+          deletion_line=$( echo "$Patch" | cut -d'-' -f2 | cut -d',' -f1 )
+          deletion_count=$( echo "$Patch" | cut -d',' -f2 | cut -d' ' -f1 )
+          addition_line=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f1 )
+          addition_count=$( echo "$Patch" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
           
-          # addition_end=$(($addition_line+$addition_count-$deletion_count))
+          addition_end=$(($addition_line+$addition_count-$deletion_count))
+
+          echo $deletion_line
+          echo $deletion_count
+          echo $addition_line
+          echo $addition_count
+          echo $addition_end
 
         # - name: Compile sketch
         #   uses: P-R-O-C-H-Y/compile-sketches@main
@@ -73,11 +79,7 @@ jobs:
         #       - --warnings="all"
         #     exit-on-fail: true
 
-        # echo $deletion_line
-        # echo $deletion_count
-        # echo $addition_line
-        # echo $addition_count
-        # echo $addition_end
+
         
         # echo "ADDITION_START=$(echo $addition_line)" >> $GITHUB_ENV
         # echo "ADDITION_END=$(echo $addition_end)" >> $GITHUB_ENV
