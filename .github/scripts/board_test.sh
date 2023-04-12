@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/${{github.event.number}}/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
+Patch=$(curl "https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/8/files" | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
 substring_patch=$(echo "$Patch" | grep -o '@@[^@]*@@')
 
@@ -15,8 +15,8 @@ echo "Step 1.1:"
 
 for param in "${params[@]}"
 do
-echo "The parameter is $param"
-params_array+=("$param")
+    echo "The parameter is $param"
+    params_array+=("$param")
 done
 
 echo "Step 2:"
