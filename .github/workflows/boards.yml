@@ -54,19 +54,17 @@ jobs:
 
           echo "Step 1:"
 
-          declare -a params_array=()
-          declare -a boards_array=()
+          params_array=()
+          boards_array=()
 
+          IFS=$'\n' read -d '' -ra params <<< $(echo "$substring_patch" | grep -oE '[-+][0-9]+,[0-9]+')
 
           echo "Step 1.1:"
-
-          for substring in "${substrings[@]}"
+          
+          for param in "${params[@]}"
           do
-            IFS=' ' read -ra params <<< $(echo "$substring" | grep -oE '[-][0-9]+,[0-9]+ [+][0-9]+,[0-9]+')
-            for param in "${params[@]}"
-            do
-              params_array+=("$param")
-            done
+            echo "The parameter is $param"
+            params_array+=("$param")
           done
 
           echo "Step 2:"
@@ -148,4 +146,3 @@ jobs:
         #   # fi
         # done < "$file"
         #IFS=$'\n' read -d '' -ra substrings <<< $(echo "$substring_patch" | awk -v RS='@@' 'NR>1{print RT $0 RT}')
-        
