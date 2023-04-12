@@ -100,5 +100,4 @@ done
 json_matrix+="]}"
 
 echo $json_matrix
-$(echo $addition_line)
-echo "fqbn_matrix=$(echo $json_matrix)" >>$GITHUB_OUTPUT
+echo "fqbns=${json_matrix}" >>$GITHUB_OUTPUT

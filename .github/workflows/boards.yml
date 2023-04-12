@@ -10,33 +10,13 @@ env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
-  compile-sketch:
+  find-boards:
     if: |
       contains(github.event.pull_request.labels.*.name, 'board_test')
     runs-on: ubuntu-latest
 
-    env:
-      REPOSITORY: |
-        - source-path: '.'
-          name: "espressif:esp32"
-
-    # strategy:
-    #   matrix:
-    #     target:
-        #   - esp32
-        #   - esp32s2
-        #   - esp32c3
-        #   - esp32s3
-
-        # include:
-        #   - target: esp32
-        #     fqbn: espressif:esp32:esp32
-        #   - target: esp32s2
-        #     fqbn: espressif:esp32:esp32s2
-        #   - target: esp32c3
-        #     fqbn: espressif:esp32:esp32c3
-        #   - target: esp32s3
-        #     fqbn: espressif:esp32:esp32s3
+    outputs:
+      fqbns: ${{ steps.find-boards.outputs.chunks }}
 
     steps:
       # This step makes the contents of the repository available to the workflow
@@ -50,36 +30,35 @@ jobs:
         run: 
           bash .github/scripts/board_test.sh ${{github.event.number}}
 
-        # - name: Compile sketch
-        #   uses: P-R-O-C-H-Y/compile-sketches@main
-        #   with:
-        #     platforms: |
-        #       ${{ env.REPOSITORY }}
-        #     target: ${{ matrix.target }}
-        #     fqbn: ${{ matrix.fqbn }}
-        #     use-json-file: false
-        #     enable-deltas-report: false
-        #     enable-warnings-report: false
-        #     cli-compile-flags: |
-        #       - --warnings="all"
-        #     exit-on-fail: true
+  test-boards:
+    needs: find-boards
+    runs-on: ubuntu-latest
 
+    env:
+      REPOSITORY: |
+        - source-path: '.'
+          name: "espressif:esp32"
 
-        
-        # echo "ADDITION_START=$(echo $addition_line)" >> $GITHUB_ENV
-        # echo "ADDITION_END=$(echo $addition_end)" >> $GITHUB_ENV
-        # file="boards.txt"
-        # i=0
-        # while read -r line; do
-        #   i=$((i+1))
-        #   if [ $i -lt $addition_line ]; then
-        #     continue
-        #   elif [ $i -gt $addition_end ]; then
-        #     break
-        #   fi
-        #   echo $line
-        #   # if [ "$line" = "$variable" ]; then
-        #     # echo "Found the variable '$variable' on line $i: $line"
-        #   # fi
-        # done < "$file"
-        #IFS=$'\n' read -d '' -ra substrings <<< $(echo "$substring_patch" | awk -v RS='@@' 'NR>1{print RT $0 RT}')
+    strategy:
+      matrix:
+        fqbn: ${{fromJson(needs.find-boards.outputs.fqbns)}}
+
+    steps:
+      # This step makes the contents of the repository available to the workflow
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Compile sketch
+        uses: P-R-O-C-H-Y/compile-sketches@main
+        with:
+          platforms: |
+            ${{ env.REPOSITORY }}
+          fqbn: ${{ matrix.fqbn }}
+          use-json-file: false
+          enable-deltas-report: false
+          enable-warnings-report: false
+          cli-compile-flags: |
+            - --warnings="all"
+          exit-on-fail: true
+          sketch-paths:
+            - ./libraries/ESP32/examples/ChipID/GetChipID/GetChipID.ino
