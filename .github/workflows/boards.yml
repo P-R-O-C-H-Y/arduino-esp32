@@ -75,15 +75,15 @@ jobs:
 
           while read -r line
           do
-            i=$((i+1))
-            if [ $i -lt $addition_line ]
-            then
-              continue
-            elif [ $i -gt $addition_end ]
-            then
-              break
-            fi
-            echo $line
+          i=$((i+1))
+          if [ $i -lt $addition_line ]
+          then
+            continue
+          elif [ $i -gt $addition_end ]
+          then
+            break
+          fi
+          echo $line
           done < "$file"
 
         # - name: Compile sketch
