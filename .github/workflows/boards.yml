@@ -1,4 +1,4 @@
-name: Boards Addition Test
+name: New Board Test
 
 # The workflow will run on schedule and labeled pull requests
 on:
@@ -28,7 +28,7 @@ jobs:
 
       - name: Get board name
         run: 
-          bash .github/scripts/board_test.sh ${{ github.repository }} ${{github.event.number}}
+          bash .github/scripts/find_new_boards.sh ${{ github.repository }} ${{github.event.number}}
 
   test-boards:
     needs: find-boards
