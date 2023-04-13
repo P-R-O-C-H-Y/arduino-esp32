@@ -50,8 +50,7 @@ jobs:
           name: "espressif:esp32"
 
     strategy:
-      matrix:
-        fqbn: ${{ fromJson(needs.find-boards.outputs.fqbns) }}
+      matrix: ${{ fromJson(needs.find-boards.outputs.fqbns) }}
 
     steps:
       # This step makes the contents of the repository available to the workflow
