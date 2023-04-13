@@ -1,23 +1,22 @@
 #!/bin/bash
 
+# Get inputs from command
+owner=$1
+repository=$2
+pr_number=$3
 
-pr_number=$1
-url="https://api.github.com/repos/P-R-O-C-H-Y/arduino-esp32/pulls/$pr_number/files"
-
+url="https://api.github.com/repos/$owner/$repository/pulls/$pr_number/files"
 echo $url
 
+# Get changes in boards.txt file from PR
 Patch=$(curl $url | jq -r '.[] | select(.filename == "boards.txt") | .patch ')
 
+# Extract only changed lines number and count
 substring_patch=$(echo "$Patch" | grep -o '@@[^@]*@@')
 
-echo "Step 1:"
-
 params_array=()
-boards_array=()
 
-IFS=$'\n' read -d '' -ra params <<< $(echo "$substring_patch" | grep -oE '[-+][0-9]+,[0-9]+')
-
-echo "Step 1.1:"
+IFS=$'\n' read -d '' -ra params <<< $(echo "$substring_patch" | grep -oE '[+][0-9]+,[0-9]+')
 
 for param in "${params[@]}"
 do
@@ -25,28 +24,21 @@ do
     params_array+=("$param")
 done
 
-echo "Step 2:"
+boards_array=()
 previous_board=""
 file="boards.txt"
 
-for (( c=0; c<${#params_array[@]}; c+=2 ))
+# Loop through boards.txt file and extract all boards that were added
+for (( c=0; c<${#params_array[@]}; c++ ))
 do
-    deletion_line=$( echo "${params_array[c]}" | cut -d'-' -f2 | cut -d',' -f1 )
-    deletion_count=$( echo "${params_array[c]}" | cut -d',' -f2 | cut -d' ' -f1 )
-    addition_line=$( echo "${params_array[c+1]}" | cut -d'+' -f2 | cut -d',' -f1 )
-    addition_count=$( echo "${params_array[c+1]}" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
-    
-    addition_end=$(($addition_line+$addition_count-$deletion_count))
-    
-    echo $deletion_count
+    addition_line=$( echo "${params_array[c]}" | cut -d'+' -f2 | cut -d',' -f1 )
+    addition_count=$( echo "${params_array[c]}" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
+    addition_end=$(($addition_line+$addition_count))
     
     echo $addition_line
-    
     echo $addition_count
 
     i=0
-    
-    echo "Step 3:"
 
     while read -r line
     do
@@ -71,21 +63,8 @@ do
     done < "$file"
 done
 
-#echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-echo "Step 4:"
-
-# {
-#   "fqbn": [
-#     "esp32",
-#     "esp32s2",
-#     "esp32c3",
-#     "esp32s3"
-#   ]
-# }
-
+# Create JSON like string with all boards found and pass it to env variable
 board_count=${#boards_array[@]}
-
-echo $board_count
 
 json_matrix='{"fqbn": ['
 for board in ${boards_array[@]}
