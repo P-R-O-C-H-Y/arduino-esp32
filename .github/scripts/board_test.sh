@@ -38,7 +38,7 @@ do
     addition_end=$(($addition_end - 3))
 
     echo $addition_line
-    echo $addition_count
+    echo $addition_end
 
     i=0
 
