@@ -15,7 +15,7 @@ substring_patch=$(echo "$Patch" | grep -o '@@[^@]*@@')
 
 params_array=()
 
-IFS=$'\n' read -d '' -ra params <<< $(echo "$substring_patch" | grep -oE '[+][0-9]+,[0-9]+')
+IFS=$'\n' read -d '' -ra params <<< $(echo "$substring_patch" | grep -oE '[-+][0-9]+,[0-9]+')
 
 for param in "${params[@]}"
 do
@@ -28,14 +28,15 @@ previous_board=""
 file="boards.txt"
 
 # Loop through boards.txt file and extract all boards that were added
-for (( c=0; c<${#params_array[@]}; c++ ))
+for (( c=0; c<${#params_array[@]}; c+=2 ))
 do
-    addition_line=$( echo "${params_array[c]}" | cut -d'+' -f2 | cut -d',' -f1 )
-    addition_count=$( echo "${params_array[c]}" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
+    deletion_count=$( echo "${params_array[c]}" | cut -d',' -f2 | cut -d' ' -f1 )
+    addition_line=$( echo "${params_array[c+1]}" | cut -d'+' -f2 | cut -d',' -f1 )
+    addition_count=$( echo "${params_array[c+1]}" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
     addition_end=$(($addition_line+$addition_count))
     
     addition_line=$(($addition_line + 3))
-    addition_end=$(($addition_end - 3))
+    addition_end=$(($addition_end - $deletion_count))
 
     echo $addition_line
     echo $addition_end
