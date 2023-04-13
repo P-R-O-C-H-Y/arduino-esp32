@@ -97,7 +97,7 @@ do
     fi
     board_count=$(($board_count - 1))
 done
-json_matrix+="]}"
+json_matrix+=']}'
 
 echo $json_matrix
-echo "fqbns=${json_matrix}" >>$GITHUB_OUTPUT
+echo "fqbns=['$json_matrix']" >> $GITHUB_OUTPUT
