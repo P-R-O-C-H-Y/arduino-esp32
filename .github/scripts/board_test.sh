@@ -34,9 +34,9 @@ do
     addition_count=$( echo "${params_array[c]}" | cut -d'+' -f2 | cut -d',' -f2 | cut -d' ' -f1 )
     addition_end=$(($addition_line+$addition_count))
     
-    addition_line = $(($addition_line + 3))
-    addition_end = $(($addition_end - 3))
-    
+    addition_line=$(($addition_line + 3))
+    addition_end=$(($addition_end - 3))
+
     echo $addition_line
     echo $addition_count
 
