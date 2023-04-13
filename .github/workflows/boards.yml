@@ -34,6 +34,16 @@ jobs:
     needs: find-boards
     runs-on: ubuntu-latest
 
+    steps:
+      # This step makes the contents of the repository available to the workflow
+      - name: Checkout repository
+        run: 
+          echo ${{needs.find-boards.outputs.fqbns}}
+
+  test-boards:
+    needs: find-boards
+    runs-on: ubuntu-latest
+
     env:
       REPOSITORY: |
         - source-path: '.'
