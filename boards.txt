@@ -6225,6 +6225,11 @@ lolin_s3.menu.EraseFlash.all.upload.erase_cmd=-e
  lolin_s3_pro.menu.DebugLevel.verbose=Verbose
  lolin_s3_pro.menu.DebugLevel.verbose.build.code_debug=5
 
+ lolin_s3_pro.menu.EraseFlash.none=Disabled
+ lolin_s3_pro.menu.EraseFlash.none.upload.erase_cmd=
+ lolin_s3_pro.menu.EraseFlash.all=Enabled
+ lolin_s3_pro.menu.EraseFlash.all.upload.erase_cmd=-e
+ 
  ##############################################################
 
 lolin32.name=WEMOS LOLIN32
