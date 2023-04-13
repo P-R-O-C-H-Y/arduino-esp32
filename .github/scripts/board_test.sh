@@ -87,7 +87,7 @@ board_count=${#boards_array[@]}
 
 echo $board_count
 
-json_matrix='{"fqbn":['
+json_matrix='[{"fqbn":['
 for board in ${boards_array[@]}
 do
     json_matrix+='"'$board'"'
@@ -97,7 +97,7 @@ do
     fi
     board_count=$(($board_count - 1))
 done
-json_matrix+=']}'
+json_matrix+=']}]'
 
 echo $json_matrix
 echo "fqbns=['$json_matrix']" >> $GITHUB_OUTPUT
