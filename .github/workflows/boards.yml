@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      fqbns: ${{ steps.find-boards.outputs.chunks }}
+      fqbns: ${{ steps.find-boards.outputs.fqbns }}
 
     steps:
       # This step makes the contents of the repository available to the workflow
