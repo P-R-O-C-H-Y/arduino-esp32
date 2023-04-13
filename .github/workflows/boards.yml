@@ -15,6 +15,9 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'board_test')
     runs-on: ubuntu-latest
 
+    outputs:
+      fqbns: ${{ env.FQBNS }}
+
     steps:
       # This step makes the contents of the repository available to the workflow
       - name: Checkout repository
@@ -35,7 +38,7 @@ jobs:
       # This step makes the contents of the repository available to the workflow
       - name: Checkout repository
         run: 
-          echo ${{ env.FQBNS }}
+          echo ${{ needs.find-boards.outputs.fqbns }}
 
   test-boards:
     needs: find-boards
@@ -48,7 +51,7 @@ jobs:
 
     strategy:
       matrix:
-        fqbn: ${{ fromJson(env.FQBNS) }}
+        fqbn: ${{ fromJson(needs.find-boards.outputs.fqbns) }}
 
     steps:
       # This step makes the contents of the repository available to the workflow
