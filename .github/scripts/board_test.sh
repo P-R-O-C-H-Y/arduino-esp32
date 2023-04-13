@@ -100,4 +100,4 @@ done
 json_matrix+=']}]'
 
 echo $json_matrix
-echo "fqbns=['$json_matrix']" >> $GITHUB_OUTPUT
+echo "fqbns=${json_matrix}" >> $GITHUB_OUTPUT
