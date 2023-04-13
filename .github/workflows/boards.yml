@@ -28,7 +28,7 @@ jobs:
 
       - name: Get board name
         run: 
-          bash .github/scripts/board_test.sh ${{github.event.organisation.name}} ${{github.event.repository.name}} ${{github.event.number}}
+          bash .github/scripts/board_test.sh ${{ env.GITHUB_REPOSITORY }} ${{github.event.number}}
 
   test-boards:
     needs: find-boards

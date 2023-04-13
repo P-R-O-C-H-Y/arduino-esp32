@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # Get inputs from command
-owner=$1
-repository=$2
-pr_number=$3
+owner_repository=$1
+pr_number=$2
 
-url="https://api.github.com/repos/$owner/$repository/pulls/$pr_number/files"
+url="https://api.github.com/repos/$owner_repository/pulls/$pr_number/files"
 echo $url
 
 # Get changes in boards.txt file from PR
