@@ -95,7 +95,7 @@ typedef enum {
 
 #define ETH_PHY_ADDR_AUTO ESP_ETH_PHY_ADDR_AUTO
 
-typedef enum {
+typedef enum { 
 #if CONFIG_ETH_USE_ESP32_EMAC
   ETH_PHY_LAN8720,
   ETH_PHY_TLK110,
@@ -122,15 +122,12 @@ public:
   ~ETHClass();
 
 #if CONFIG_ETH_USE_ESP32_EMAC
-  bool begin(eth_phy_type_t type, int32_t phy_addr, int mdc, int mdio, int power, eth_clock_mode_t clk_mode);
+        bool begin(eth_phy_type_t type, int32_t phy_addr, int mdc, int mdio, int power, eth_clock_mode_t clk_mode);
 #endif /* CONFIG_ETH_USE_ESP32_EMAC */
 #if ETH_SPI_SUPPORTS_CUSTOM
-  bool begin(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, SPIClass &spi, uint8_t spi_freq_mhz = ETH_PHY_SPI_FREQ_MHZ);
+        bool begin(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, SPIClass &spi, uint8_t spi_freq_mhz=ETH_PHY_SPI_FREQ_MHZ);
 #endif
-  bool begin(
-    eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, spi_host_device_t spi_host, int sck = -1, int miso = -1, int mosi = -1,
-    uint8_t spi_freq_mhz = ETH_PHY_SPI_FREQ_MHZ
-  );
+        bool begin(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, spi_host_device_t spi_host, int sck=-1, int miso=-1, int mosi=-1, uint8_t spi_freq_mhz=ETH_PHY_SPI_FREQ_MHZ);
 
   bool begin() {
 #if defined(ETH_PHY_TYPE) && defined(ETH_PHY_ADDR)
@@ -199,9 +196,8 @@ private:
   int8_t _pin_rmii_clock;
 #endif /* CONFIG_ETH_USE_ESP32_EMAC */
 
-  static bool ethDetachBus(void *bus_pointer);
-  bool beginSPI(
-    eth_phy_type_t type, int32_t phy_addr, uint8_t *mac_addr, int cs, int irq, int rst,
+        static bool ethDetachBus(void * bus_pointer);
+        bool beginSPI(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, 
 #if ETH_SPI_SUPPORTS_CUSTOM
     SPIClass *spi,
 #endif

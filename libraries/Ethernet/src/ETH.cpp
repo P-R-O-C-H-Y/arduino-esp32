@@ -141,77 +141,44 @@ bool ETHClass::ethDetachBus(void *bus_pointer) {
 }
 
 #if CONFIG_ETH_USE_ESP32_EMAC
-bool ETHClass::begin(eth_phy_type_t type, int32_t phy_addr, int mdc, int mdio, int power, eth_clock_mode_t clock_mode) {
-  esp_err_t ret = ESP_OK;
-  if (_eth_index > 2) {
-    return false;
-  }
-  if (_esp_netif != NULL) {
-    return true;
-  }
-  if (phy_addr < ETH_PHY_ADDR_AUTO) {
-    log_e("Invalid PHY address: %d, set to ETH_PHY_ADDR_AUTO for auto detection", phy_addr);
-    return false;
-  }
-  perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_RMII, ETHClass::ethDetachBus);
-  perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_CLK, ETHClass::ethDetachBus);
-  perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_MCD, ETHClass::ethDetachBus);
-  perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_MDIO, ETHClass::ethDetachBus);
-  if (power != -1) {
-    perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_PWR, ETHClass::ethDetachBus);
-  }
+bool ETHClass::begin(eth_phy_type_t type, int32_t phy_addr, int mdc, int mdio, int power, eth_clock_mode_t clock_mode)
+{
+    esp_err_t ret = ESP_OK;
+    if(_esp_netif != NULL){
+        return true;
+    }
+    perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_RMII, ETHClass::ethDetachBus);
+    perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_CLK, ETHClass::ethDetachBus);
+    perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_MCD, ETHClass::ethDetachBus);
+    perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_MDIO, ETHClass::ethDetachBus);
+    if(power != -1){
+        perimanSetBusDeinit(ESP32_BUS_TYPE_ETHERNET_PWR, ETHClass::ethDetachBus);
+    }
 
-  Network.begin();
-  _ethernets[_eth_index] = this;
-  if (_eth_ev_instance == NULL && esp_event_handler_instance_register(ETH_EVENT, ESP_EVENT_ANY_ID, &_eth_event_cb, NULL, &_eth_ev_instance)) {
-    log_e("event_handler_instance_register for ETH_EVENT Failed!");
-    return false;
-  }
+    tcpipInit();
 
-  eth_esp32_emac_config_t mac_config = ETH_ESP32_EMAC_DEFAULT_CONFIG();
-  mac_config.clock_config.rmii.clock_mode = (clock_mode) ? EMAC_CLK_OUT : EMAC_CLK_EXT_IN;
-  mac_config.clock_config.rmii.clock_gpio = (1 == clock_mode)   ? EMAC_APPL_CLK_OUT_GPIO
-                                            : (2 == clock_mode) ? EMAC_CLK_OUT_GPIO
-                                            : (3 == clock_mode) ? EMAC_CLK_OUT_180_GPIO
-                                                                : EMAC_CLK_IN_GPIO;
-  mac_config.smi_mdc_gpio_num = digitalPinToGPIONumber(mdc);
-  mac_config.smi_mdio_gpio_num = digitalPinToGPIONumber(mdio);
+    eth_esp32_emac_config_t mac_config = ETH_ESP32_EMAC_DEFAULT_CONFIG();
+    mac_config.clock_config.rmii.clock_mode = (clock_mode) ? EMAC_CLK_OUT : EMAC_CLK_EXT_IN;
+    mac_config.clock_config.rmii.clock_gpio = (1 == clock_mode) ? EMAC_APPL_CLK_OUT_GPIO : (2 == clock_mode) ? EMAC_CLK_OUT_GPIO : (3 == clock_mode) ? EMAC_CLK_OUT_180_GPIO : EMAC_CLK_IN_GPIO;
+    mac_config.smi_mdc_gpio_num = digitalPinToGPIONumber(mdc);
+    mac_config.smi_mdio_gpio_num = digitalPinToGPIONumber(mdio);
 
-  _pin_mcd = digitalPinToGPIONumber(mdc);
-  _pin_mdio = digitalPinToGPIONumber(mdio);
-  _pin_rmii_clock = mac_config.clock_config.rmii.clock_gpio;
-  _pin_power = digitalPinToGPIONumber(power);
+    _pin_mcd = digitalPinToGPIONumber(mdc);
+    _pin_mdio = digitalPinToGPIONumber(mdio);
+    _pin_rmii_clock = mac_config.clock_config.rmii.clock_gpio;
+    _pin_power = digitalPinToGPIONumber(power);
 
-  if (!perimanClearPinBus(_pin_rmii_clock)) {
-    return false;
-  }
-  if (!perimanClearPinBus(_pin_mcd)) {
-    return false;
-  }
-  if (!perimanClearPinBus(_pin_mdio)) {
-    return false;
-  }
-  if (!perimanClearPinBus(ETH_RMII_TX_EN)) {
-    return false;
-  }
-  if (!perimanClearPinBus(ETH_RMII_TX0)) {
-    return false;
-  }
-  if (!perimanClearPinBus(ETH_RMII_TX1)) {
-    return false;
-  }
-  if (!perimanClearPinBus(ETH_RMII_RX0)) {
-    return false;
-  }
-  if (!perimanClearPinBus(ETH_RMII_RX1_EN)) {
-    return false;
-  }
-  if (!perimanClearPinBus(ETH_RMII_CRS_DV)) {
-    return false;
-  }
-  if (_pin_power != -1) {
-    if (!perimanClearPinBus(_pin_power)) {
-      return false;
+    if(!perimanClearPinBus(_pin_rmii_clock)){ return false; }
+    if(!perimanClearPinBus(_pin_mcd)){ return false; }
+    if(!perimanClearPinBus(_pin_mdio)){ return false; }
+    if(!perimanClearPinBus(ETH_RMII_TX_EN)){ return false; }
+    if(!perimanClearPinBus(ETH_RMII_TX0)){ return false; }
+    if(!perimanClearPinBus(ETH_RMII_TX1)){ return false; }
+    if(!perimanClearPinBus(ETH_RMII_RX0)){ return false; }
+    if(!perimanClearPinBus(ETH_RMII_RX1_EN)){ return false; }
+    if(!perimanClearPinBus(ETH_RMII_CRS_DV)){ return false; }
+    if(_pin_power != -1){
+        if(!perimanClearPinBus(_pin_power)){ return false; }
     }
   }
 
@@ -243,29 +210,26 @@ bool ETHClass::begin(eth_phy_type_t type, int32_t phy_addr, int mdc, int mdio, i
     return false;
   }
 
-  _eth_handle = NULL;
-  esp_eth_config_t eth_config = ETH_DEFAULT_CONFIG(mac, phy);
-  ret = esp_eth_driver_install(&eth_config, &_eth_handle);
-  if (ret != ESP_OK) {
-    log_e("Ethernet driver install failed: %d", ret);
-    return false;
-  }
-  if (_eth_handle == NULL) {
-    log_e("esp_eth_driver_install failed! eth_handle is NULL");
-    return false;
-  }
+    _eth_handle = NULL;
+    esp_eth_config_t eth_config = ETH_DEFAULT_CONFIG(mac, phy);
+    ret = esp_eth_driver_install(&eth_config, &_eth_handle);
+    if(ret != ESP_OK){
+        log_e("Ethernet driver install failed: %d", ret);
+        return false;
+    }
+    if(_eth_handle == NULL){
+        log_e("esp_eth_driver_install failed! eth_handle is NULL");
+        return false;
+    }
+    
+    esp_netif_config_t cfg = ESP_NETIF_DEFAULT_ETH();
 
-  esp_netif_config_t cfg = ESP_NETIF_DEFAULT_ETH();
-
-  // Use ESP_NETIF_INHERENT_DEFAULT_ETH when multiple Ethernet interfaces are used and so you need to modify
-  // esp-netif configuration parameters for each interface (name, priority, etc.).
-  char if_key_str[10];
-  char if_desc_str[10];
-  char num_str[3];
-  itoa(_eth_index, num_str, 10);
-  if (_eth_index == 0) {
-    strcpy(if_key_str, "ETH_DEF");
-  } else {
+    // Use ESP_NETIF_INHERENT_DEFAULT_ETH when multiple Ethernet interfaces are used and so you need to modify
+    // esp-netif configuration parameters for each interface (name, priority, etc.).
+    char if_key_str[10];
+    char if_desc_str[10];
+    char num_str[3];
+    itoa(_eth_index, num_str, 10);
     strcat(strcpy(if_key_str, "ETH_"), num_str);
   }
   strcat(strcpy(if_desc_str, "eth"), num_str);
@@ -445,8 +409,7 @@ esp_err_t ETHClass::eth_spi_write(uint32_t cmd, uint32_t addr, const void *data,
 }
 #endif
 
-bool ETHClass::beginSPI(
-  eth_phy_type_t type, int32_t phy_addr, uint8_t *mac_addr_p, int cs, int irq, int rst,
+bool ETHClass::beginSPI(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, 
 #if ETH_SPI_SUPPORTS_CUSTOM
   SPIClass *spi,
 #endif
@@ -778,15 +741,13 @@ err:
 }
 
 #if ETH_SPI_SUPPORTS_CUSTOM
-bool ETHClass::begin(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, SPIClass &spi, uint8_t spi_freq_mhz) {
+bool ETHClass::begin(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, SPIClass &spi, uint8_t spi_freq_mhz){
 
   return beginSPI(type, phy_addr, nullptr, cs, irq, rst, &spi, -1, -1, -1, SPI2_HOST, spi_freq_mhz);
 }
 #endif
 
-bool ETHClass::begin(
-  eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, spi_host_device_t spi_host, int sck, int miso, int mosi, uint8_t spi_freq_mhz
-) {
+bool ETHClass::begin(eth_phy_type_t type, int32_t phy_addr, int cs, int irq, int rst, spi_host_device_t spi_host, int sck, int miso, int mosi, uint8_t spi_freq_mhz){
 
   return beginSPI(
     type, phy_addr, nullptr, cs, irq, rst,
