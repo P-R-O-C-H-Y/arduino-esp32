@@ -35,14 +35,10 @@ jobs:
             mv "temp_$name"/* libraries-report/
             rm -r "temp_$name"
           done
+          echo "Contents of 'libraries-report':"
+          ls -R libraries-report
           echo "Contents of parent directory:"
           ls -R ..
-
-      - name: Read the pr_num file
-        id: pr_num_reader
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./artifacts/workflows/pr_num.txt
     
       - name: Report results
         uses: P-R-O-C-H-Y/report-size-deltas@libs
