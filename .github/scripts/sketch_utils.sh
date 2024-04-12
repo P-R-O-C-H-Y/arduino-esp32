@@ -148,8 +148,8 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
         build_dir="$HOME/.arduino/tests/$sketchname/build.tmp"
     fi
 
-    output_file="$HOME/.arduino/cli_compile_output.txt"
-    sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
+    log_file="$HOME/.arduino/cli_compile_output.txt"
+    sizes_file="$HOME/.arduino/cli_compile_output.json"
 
     mkdir -p "$ARDUINO_CACHE_DIR"
     for i in `seq 0 $(($len - 1))`
@@ -176,7 +176,7 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
                 --build-cache-path "$ARDUINO_CACHE_DIR" \
                 --build-path "$build_dir" \
                 $xtra_opts "${sketchdir}" \
-                > $output_file
+                > $log_file
             
             exit_status=$?
             if [ $exit_status -ne 0 ]; then
@@ -184,29 +184,22 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
                 exit $exit_status
             fi
 
-            if [ $log_compilation ]; then
-                #Extract the program storage space and dynamic memory usage in bytes and percentage in separate variables from the output, just the value without the string
-                flash_bytes=$(grep -oE 'Sketch uses ([0-9]+) bytes' $output_file | awk '{print $3}')
-                flash_percentage=$(grep -oE 'Sketch uses ([0-9]+) bytes \(([0-9]+)%\)' $output_file | awk '{print $5}' | tr -d '(%)')
-                ram_bytes=$(grep -oE 'Global variables use ([0-9]+) bytes' $output_file | awk '{print $4}')
-                ram_percentage=$(grep -oE 'Global variables use ([0-9]+) bytes \(([0-9]+)%\)' $output_file | awk '{print $6}' | tr -d '(%)')
+            #Extract the program storage space and dynamic memory usage in bytes and percentage in separate variables from the output, just the value without the string
+            flash_bytes=$(grep -oE 'Sketch uses ([0-9]+) bytes' $log_file | awk '{print $3}')
+            flash_percentage=$(grep -oE 'Sketch uses ([0-9]+) bytes \(([0-9]+)%\)' $log_file | awk '{print $5}' | tr -d '(%)')
+            ram_bytes=$(grep -oE 'Global variables use ([0-9]+) bytes' $log_file | awk '{print $4}')
+            ram_percentage=$(grep -oE 'Global variables use ([0-9]+) bytes \(([0-9]+)%\)' $log_file | awk '{print $6}' | tr -d '(%)')
 
-                # Extract the directory path excluding the filename
-                directory_path=$(dirname "$sketch")
-                # Define the constant part
-                constant_part="/home/runner/Arduino/hardware/espressif/esp32/libraries/"
-                # Extract the desired substring using sed
-                lib_sketch_name=$(echo "$directory_path" | sed "s|$constant_part||")
-                #append json file where key is fqbn, sketch name, sizes -> extracted values
-                echo "{\"name\": \"$lib_sketch_name\", 
-                    \"sizes\": [{
-                            \"flash_bytes\": $flash_bytes, 
-                            \"flash_percentage\": $flash_percentage, 
-                            \"ram_bytes\": $ram_bytes, 
-                            \"ram_percentage\": $ram_percentage
-                            }]
-                    }," >> "$sizes_file"
-            fi
+            #append json file where key is fqbn, sketch name, sizes -> extracted values
+            echo "{\"fqbn\": \"$fqbn\", 
+                   \"sketch\": \"$sketch\", 
+                   \"sizes\": {
+                        \"flash_bytes\": $flash_bytes, 
+                        \"flash_percentage\": $flash_percentage, 
+                        \"ram_bytes\": $ram_bytes, 
+                        \"ram_percentage\": $ram_percentage
+                        }
+                  }" >> $out_file
 
         elif [ -f "$ide_path/arduino-builder" ]; then
             echo "Building $sketchname with arduino-builder and FQBN=$currfqbn"
