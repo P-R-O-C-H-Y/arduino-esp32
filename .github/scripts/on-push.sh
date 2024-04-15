@@ -40,12 +40,6 @@ function build(){
             ${BUILD_SKETCH} ${sargs}
         done
     fi
-    sizes_file="$HOME/.arduino/cli_compile_output.json"
-    #rename sizes_file="$HOME/.arduino/cli_compile_output.json" to sizes_file="GITHUB_WORKSPACE/cli_compile_output_${chunk_index}.json"
-    ls -R $HOME/.arduino
-    mv $sizes_file "$GITHUB_WORKSPACE/cli_compile_output_${chunk_index}.json"
-    ls -R $GITHUB_WORKSPACE
-
 }
 
 if [ -z "$GITHUB_WORKSPACE" ]; then
@@ -95,25 +89,19 @@ if [ "$BUILD_PIO" -eq 0 ]; then
     #create sizes_file
     sizes_file="$GITHUB_WORKSPACE/cli_compile_$CHUNK_INDEX.json"
 
-    if [ "$BUILD_LOG" -eq 1 ]; then
-        #create sizes_file and echo start of JSON array with "boards" key
-        echo "{\"boards\": [" > $sizes_file
-    fi
+    build "esp32s3" $FQBN_ESP32S3 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    build "esp32s2" $FQBN_ESP32S2 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    build "esp32c3" $FQBN_ESP32C3 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    build "esp32c6" $FQBN_ESP32C6 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    build "esp32h2" $FQBN_ESP32H2 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    build "esp32"   $FQBN_ESP32   $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
 
-    #build sketches for different targets
-    build "esp32s3" $FQBN_ESP32S3 $CHUNK_INDEX $CHUNKS_CNT $BUILD_LOG $SKETCHES_ESP32
-    build "esp32s2" $FQBN_ESP32S2 $CHUNK_INDEX $CHUNKS_CNT $BUILD_LOG $SKETCHES_ESP32
-    build "esp32c3" $FQBN_ESP32C3 $CHUNK_INDEX $CHUNKS_CNT $BUILD_LOG $SKETCHES_ESP32
-    build "esp32c6" $FQBN_ESP32C6 $CHUNK_INDEX $CHUNKS_CNT $BUILD_LOG $SKETCHES_ESP32
-    build "esp32h2" $FQBN_ESP32H2 $CHUNK_INDEX $CHUNKS_CNT $BUILD_LOG $SKETCHES_ESP32
-    build "esp32"   $FQBN_ESP32   $CHUNK_INDEX $CHUNKS_CNT $BUILD_LOG $SKETCHES_ESP32
-
-    if [ "$BUILD_LOG" -eq 1 ]; then
-        #remove last comma from the last JSON object
-        sed -i '$ s/.$//' "$sizes_file"
-        #echo end of JSON array
-        echo "]}" >> $sizes_file
-    fi
+    sizes_file="$HOME/.arduino/cli_compile_output.json"
+    #rename sizes_file="$HOME/.arduino/cli_compile_output.json" to sizes_file="GITHUB_WORKSPACE/cli_compile_output_${chunk_index}.json"
+    ls $HOME/.arduino
+    mv $sizes_file "$GITHUB_WORKSPACE/cli_compile_output_${chunk_index}.json"
+    ls $GITHUB_WORKSPACE
+    
 else
     source ${SCRIPTS_DIR}/install-platformio-esp32.sh
     # PlatformIO ESP32 Test
