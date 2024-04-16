@@ -12,6 +12,7 @@ env:
   SKETCHES_REPORTS_PATH: artifacts/sizes-report
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   PR_EVENT_PATH: artifacts/event-file/event.json
+  PR_NUMBER: ${{ github.event.workflow_run.event.number }}
 
 jobs:
   lib-test-results:
@@ -55,4 +56,4 @@ jobs:
           sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
           github-token: ${{ env.GITHUB_TOKEN }}
           pr-event-path: ${{ env.PR_EVENT_PATH }}
-          pr-number: ${{ github.event.workflow_run.event.number }}
+          pr-number: ${{ env.PR_NUMBER }}
