@@ -12,7 +12,7 @@ env:
   SKETCHES_REPORTS_PATH: artifacts/sizes-report
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   PR_EVENT_PATH: artifacts/event-file/event.json
-  PR_NUMBER: ${{ github.event.workflow_run.event.number }}
+  PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
 
 jobs:
   lib-test-results:
@@ -29,7 +29,6 @@ jobs:
           mkdir -p sizes-report
           mkdir -p sizes-report/master
           mkdir -p sizes-report/pr
-          mkdir -p event-file
           artifacts_url=${{ github.event.workflow_run.artifacts_url }}
           gh api "$artifacts_url" -q '.artifacts[] | [.name, .archive_download_url] | @tsv' | while read artifact
           do
@@ -40,8 +39,6 @@ jobs:
               mv "temp_$name"/* sizes-report/master
             elif [[ "$name" == *"pr"* ]]; then
               mv "temp_$name"/* sizes-report/pr
-            elif [[ "$name" == "Event File" ]]; then
-              mv "temp_$name"/* event-file
             else
               mv "temp_$name"/* sizes-report
             fi
