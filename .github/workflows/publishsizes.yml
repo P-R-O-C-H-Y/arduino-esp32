@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # This step checks out the repository's code at gh-pages branch
+        uses: actions/checkout@v4  # This step checks out the repository's code at gh-pages branch
         with:
           ref: gh-pages
 
