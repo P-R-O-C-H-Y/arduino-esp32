@@ -30,18 +30,19 @@ jobs:
       - name: List files in the directory
         run: ls -R
 
-      - name: Download JSON file
-        run: |
-          cp master_cli_compile/*.json artifacts/sizes-report/master/
-        # Optionally, you can also use the 'actions/download-artifact' action here to download specific files
-
-      # Optionally, you can add more steps here to process or use the downloaded JSON files
-      - name: Download and Extract Artifacts
+      - name: Create folder structure
         run: |
           mkdir -p artifacts && cd artifacts
           mkdir -p sizes-report
           mkdir -p sizes-report/master
           mkdir -p sizes-report/pr
+
+      - name: Download JSON file
+        run: |
+          cp master_cli_compile/*.json artifacts/sizes-report/master/
+
+      - name: Download and Extract Artifacts
+        run: |
           artifacts_url=${{ github.event.workflow_run.artifacts_url }}
           gh api "$artifacts_url" -q '.artifacts[] | [.name, .archive_download_url] | @tsv' | while read artifact
           do
