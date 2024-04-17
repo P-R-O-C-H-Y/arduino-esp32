@@ -23,7 +23,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # This step checks out the repository's code
+        uses: actions/checkout@v2  # This step checks out the repository's code at gh-pages branch
+        with:
+          ref: gh-pages
+
+      - name: List files in the directory
+        run: ls -R
+
+      - name: Download JSON file
+        run: |
+          cp master_cli_compile/*.json artifacts/sizes-report/master 
+        # Optionally, you can also use the 'actions/download-artifact' action here to download specific files
 
       # Optionally, you can add more steps here to process or use the downloaded JSON files
       - name: Download and Extract Artifacts
@@ -49,20 +59,6 @@ jobs:
           done
           echo "Contents of parent directory:"
           ls -R ..
-
-      - name: Fetch gh-pages branch
-        run: git fetch origin gh-pages:gh-pages  # Fetch the contents of the gh-pages branch
-
-      - name: List files in the directory
-        run: ls -R
-
-      - name: Download JSON file
-        run: |
-          cp master_cli_compile/*.json artifacts/sizes-report/master 
-        # Optionally, you can also use the 'actions/download-artifact' action here to download specific files
-
-      - name: List files in the directory
-        run: ls -R
     
       - name: Report results
         uses: P-R-O-C-H-Y/report-size-deltas@sizes_v2
