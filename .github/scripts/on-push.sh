@@ -23,7 +23,7 @@ function build(){
     if [ "$OS_IS_LINUX" == "1" ]; then
         args+=" -p $ARDUINO_ESP32_PATH/libraries"
         args+=" -i $chunk_index -m $chunks_cnt"
-        if [$build_log -eq 1]; then
+        if [ $build_log -eq 1 ]; then
             args+=" -l $build_log"
         fi
         ${BUILD_SKETCHES} ${args}
@@ -89,7 +89,7 @@ if [ "$BUILD_PIO" -eq 0 ]; then
     #create sizes_file
     sizes_file="$GITHUB_WORKSPACE/cli_compile_$CHUNK_INDEX.json"
 
-    if [ "$BUILD_LOG" -eq 1]; then
+    if [ "$BUILD_LOG" -eq 1 ]; then
         #create sizes_file and echo start of JSON array with "boards" key
         echo "{\"boards\": [" > $sizes_file
     fi
@@ -102,7 +102,7 @@ if [ "$BUILD_PIO" -eq 0 ]; then
     build "esp32h2" $FQBN_ESP32H2 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32 $BUILD_LOG
     build "esp32"   $FQBN_ESP32   $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32 $BUILD_LOG
 
-    if [ "$BUILD_LOG" -eq 1]; then
+    if [ "$BUILD_LOG" -eq 1 ]; then
         #remove last comma from the last JSON object
         sed -i '$ s/.$//' "$sizes_file"
         #echo end of JSON array
