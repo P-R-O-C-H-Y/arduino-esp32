@@ -90,6 +90,7 @@ if [ "$BUILD_PIO" -eq 0 ]; then
         #create sizes_file and echo start of JSON array with "boards" key
         sizes_file="$GITHUB_WORKSPACE/cli_compile_$CHUNK_INDEX.json"
         echo "{\"boards\": [" > $sizes_file
+    fi
 
     #build sketches for different targets
     build "esp32s3" $FQBN_ESP32S3 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32 $BUILD_LOG
@@ -104,7 +105,7 @@ if [ "$BUILD_PIO" -eq 0 ]; then
         sed -i '$ s/.$//' "$sizes_file"
         #echo end of JSON array
         echo "]}" >> $sizes_file
-
+    fi
 else
     source ${SCRIPTS_DIR}/install-platformio-esp32.sh
     # PlatformIO ESP32 Test
