@@ -150,10 +150,8 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
 
     echo "Chunk index = $chunk_index"
 
-    if [ $log_compilation ]; then
-        output_file="$HOME/.arduino/cli_compile_output.txt"
-        sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
-    fi
+    output_file="$HOME/.arduino/cli_compile_output.txt"
+    sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
 
     echo "Sizes file = $sizes_file"
 
