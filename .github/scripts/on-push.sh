@@ -86,9 +86,11 @@ if [ "$BUILD_PIO" -eq 0 ]; then
       $ARDUINO_ESP32_PATH/libraries/ESP32/examples/Camera/CameraWebServer/CameraWebServer.ino\
       $ARDUINO_ESP32_PATH/libraries/Insights/examples/MinimalDiagnostics/MinimalDiagnostics.ino\
     "
+    #create sizes_file
+    sizes_file="$GITHUB_WORKSPACE/cli_compile_$CHUNK_INDEX.json"
+
     if [ "$BUILD_LOG" -eq 1]; then
         #create sizes_file and echo start of JSON array with "boards" key
-        sizes_file="$GITHUB_WORKSPACE/cli_compile_$CHUNK_INDEX.json"
         echo "{\"boards\": [" > $sizes_file
     fi
 
