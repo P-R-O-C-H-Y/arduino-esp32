@@ -46,48 +46,50 @@ jobs:
                                             'tools/get.py',
                                             '.github/scripts/install-arduino-ide.sh') }}
     - name: Build Sketches
-      run: bash ./.github/scripts/on-push.sh ${{ matrix.chunk }} 15
+      run: bash ./.github/scripts/on-push.sh ${{ matrix.chunk }} 15 1
 
     #Upload cli compile json as artifact
     - name: Upload cli compile json
+      if: github.event_name == 'pull_request'
       uses: actions/upload-artifact@v4
       with:
         name: pr_cli_compile_${{ matrix.chunk }}
         path: cli_compile_${{ matrix.chunk }}.json
+        overwrite: true
 
   # Windows and MacOS
-  #build-arduino-win-mac:
-  #  name: Arduino on ${{ matrix.os }}
-  #  runs-on: ${{ matrix.os }}
-  #  strategy:
-  #    fail-fast: false
-  #    matrix:
-  #      os: [windows-latest, macOS-latest]
-  #
-  #  steps:
-  #  - uses: actions/checkout@v4
-  #  - uses: actions/setup-python@v5
-  #    with:
-  #      python-version: '3.x'
-  #  - name: Build Sketches
-  #    run: bash ./.github/scripts/on-push.sh
+  build-arduino-win-mac:
+    name: Arduino on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+    - name: Build Sketches
+      run: bash ./.github/scripts/on-push.sh
 
   # PlatformIO on Windows, Ubuntu and Mac
-  #build-platformio:
-  #  name: PlatformIO on ${{ matrix.os }}
-  #  runs-on: ${{ matrix.os }}
-  #  strategy:
-  #    fail-fast: false
-  #    matrix:
-  #      os: [ubuntu-latest, windows-latest, macOS-latest]
-  #
-  #  steps:
-  #  - uses: actions/checkout@v4
-  # - uses: actions/setup-python@v5
-  #    with:
-  #      python-version: '3.x'
-  #  - name: Build Sketches
-  #    run: bash ./.github/scripts/on-push.sh 1 1 #equal and non-zero to trigger PIO
+  build-platformio:
+    name: PlatformIO on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+    - name: Build Sketches
+      run: bash ./.github/scripts/on-push.sh 1 1 #equal and non-zero to trigger PIO
 
   build-esp-idf-component:
     name: Build with ESP-IDF ${{ matrix.idf_ver }} for ${{ matrix.idf_target }}
@@ -119,19 +121,21 @@ jobs:
           idf.py -C test -DEXTRA_COMPONENT_DIRS=$PWD/components build
 
     # Ubuntu
-  build-arduino-master-linux:
-    name: Arduino Master ${{ matrix.chunk }} on ubuntu-latest
+  build-arduino-base-linux:
+    name: Arduino Base ${{ matrix.chunk }} on ubuntu-latest
+    #run if its on PR only
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
-    # Checkout master branch
+    # Checkout base branch
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: master
+        ref: ${{ github.event.pull_request.base.ref }}
     - uses: actions/setup-python@v5
       with:
         python-version: '3.x'
@@ -146,7 +150,7 @@ jobs:
                                             'tools/get.py',
                                             '.github/scripts/install-arduino-ide.sh') }}
     - name: Build Sketches
-      run: bash ./.github/scripts/on-push.sh ${{ matrix.chunk }} 15
+      run: bash ./.github/scripts/on-push.sh ${{ matrix.chunk }} 15 1
 
     #Upload cli compile json as artifact
     - name: Upload cli compile json
@@ -154,14 +158,51 @@ jobs:
       with:
         name: master_cli_compile_${{ matrix.chunk }}
         path: cli_compile_${{ matrix.chunk }}.json
+        overwrite: true
 
-  event_file:
-    name: "Event File"
-    needs: [build-arduino-linux, build-arduino-master-linux]
+  # Save artifacts to gh-pages
+  save-master-artifacts:
+    name: Save master artifacts
+    needs: build-arduino-linux
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-        - name: Upload
-          uses: actions/upload-artifact@v4
-          with:
-            name: Event File
-            path: ${{github.event_path}}
+    # Check out repository
+      - name: Checkout repository    
+        uses: actions/checkout@v4
+        with:
+          token: ${{ env.GITHUB_TOKEN }}
+          fetch-depth: '0'
+
+      - name: Switch branch
+          run:
+            git checkout remotes/origin/gh-pages
+
+      - name: Download sketches reports artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: pr_cli_compile_*
+          merge-multiple: true
+          path: master_cli_compile
+
+      - name: Commit json files to gh-pages if on master
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add --all
+          git commit -m "Updated cli compile json files"
+          git push origin HEAD:gh-pages
+  
+  #Upload PR number as artifact
+  upload-pr-number:
+    name: Upload PR number
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Upload PR number
+      uses: actions/upload-artifact@v4
+      with:
+        name: pr_number
+        path: pr_number
+        overwrite: true
