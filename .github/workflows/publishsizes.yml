@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # This step checks out the repository's code
+        uses: actions/checkout@v4  # This step checks out the repository's code
 
       # Optionally, you can add more steps here to process or use the downloaded JSON files
       - name: Download and Extract Artifacts
