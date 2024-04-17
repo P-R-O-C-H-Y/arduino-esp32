@@ -31,6 +31,10 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
             shift
             chunk_index=$1
             ;;
+        -l )
+            shift
+            log_compilation=$1
+            ;;
         * )
             break
             ;;
@@ -146,8 +150,10 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
 
     echo "Chunk index = $chunk_index"
 
-    log_file="$HOME/.arduino/cli_compile_output.txt"
-    sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
+    if [ $log_compilation ]; then
+        output_file="$HOME/.arduino/cli_compile_output.txt"
+        sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
+    fi
 
     echo "Sizes file = $sizes_file"
 
@@ -176,7 +182,7 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
                 --build-cache-path "$ARDUINO_CACHE_DIR" \
                 --build-path "$build_dir" \
                 $xtra_opts "${sketchdir}" \
-                > $log_file
+                > $output_file
             
             exit_status=$?
             if [ $exit_status -ne 0 ]; then
@@ -184,30 +190,32 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
                 exit $exit_status
             fi
 
-            #Extract the program storage space and dynamic memory usage in bytes and percentage in separate variables from the output, just the value without the string
-            flash_bytes=$(grep -oE 'Sketch uses ([0-9]+) bytes' $log_file | awk '{print $3}')
-            flash_percentage=$(grep -oE 'Sketch uses ([0-9]+) bytes \(([0-9]+)%\)' $log_file | awk '{print $5}' | tr -d '(%)')
-            ram_bytes=$(grep -oE 'Global variables use ([0-9]+) bytes' $log_file | awk '{print $4}')
-            ram_percentage=$(grep -oE 'Global variables use ([0-9]+) bytes \(([0-9]+)%\)' $log_file | awk '{print $6}' | tr -d '(%)')
+            if [ $log_compilation ]; then
+                #Extract the program storage space and dynamic memory usage in bytes and percentage in separate variables from the output, just the value without the string
+                flash_bytes=$(grep -oE 'Sketch uses ([0-9]+) bytes' $output_file | awk '{print $3}')
+                flash_percentage=$(grep -oE 'Sketch uses ([0-9]+) bytes \(([0-9]+)%\)' $output_file | awk '{print $5}' | tr -d '(%)')
+                ram_bytes=$(grep -oE 'Global variables use ([0-9]+) bytes' $output_file | awk '{print $4}')
+                ram_percentage=$(grep -oE 'Global variables use ([0-9]+) bytes \(([0-9]+)%\)' $output_file | awk '{print $6}' | tr -d '(%)')
 
-            # Extract the directory path excluding the filename
-            directory_path=$(dirname "$sketch")
-            echo "Debug (sketch)- directory path = $directory_path"
-            # Define the constant part
-            constant_part="/home/runner/Arduino/hardware/espressif/esp32/libraries/"
-            echo "Debug (sketch)- constant part = $constant_part"
-            # Extract the desired substring using sed
-            lib_sketch_name=$(echo "$directory_path" | sed "s|$constant_part||")
-            echo "Debug (sketch)- extracted path = $lib_sketch_name"
-            #append json file where key is fqbn, sketch name, sizes -> extracted values
-            echo "{\"name\": \"$lib_sketch_name\", 
-                   \"sizes\": [{
-                        \"flash_bytes\": $flash_bytes, 
-                        \"flash_percentage\": $flash_percentage, 
-                        \"ram_bytes\": $ram_bytes, 
-                        \"ram_percentage\": $ram_percentage
-                        }]
-                  }," >> "$sizes_file"
+                # Extract the directory path excluding the filename
+                directory_path=$(dirname "$sketch")
+                echo "Debug (sketch)- directory path = $directory_path"
+                # Define the constant part
+                constant_part="/home/runner/Arduino/hardware/espressif/esp32/libraries/"
+                echo "Debug (sketch)- constant part = $constant_part"
+                # Extract the desired substring using sed
+                lib_sketch_name=$(echo "$directory_path" | sed "s|$constant_part||")
+                echo "Debug (sketch)- extracted path = $lib_sketch_name"
+                #append json file where key is fqbn, sketch name, sizes -> extracted values
+                echo "{\"name\": \"$lib_sketch_name\", 
+                    \"sizes\": [{
+                            \"flash_bytes\": $flash_bytes, 
+                            \"flash_percentage\": $flash_percentage, 
+                            \"ram_bytes\": $ram_bytes, 
+                            \"ram_percentage\": $ram_percentage
+                            }]
+                    }," >> "$sizes_file"
+            fi
 
         elif [ -f "$ide_path/arduino-builder" ]; then
             echo "Building $sketchname with arduino-builder and FQBN=$currfqbn"
@@ -316,6 +324,10 @@ function build_sketches(){ # build_sketches <ide_path> <user_path> <target> <pat
             shift
             chunk_max=$1
             ;;
+        -l )
+            shift
+            log_compilation=$1
+            ;;
         * )
             break
             ;;
@@ -379,14 +391,19 @@ function build_sketches(){ # build_sketches <ide_path> <user_path> <target> <pat
     echo "Start Sketch: $start_num"
     echo "End Sketch  : $end_index"
 
-    sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
-    #echo board,target and start of sketches to sizes_file json
-    echo "{ \"board\": \"$fqbn\",
-            \"target\": \"$target\", 
-            \"sketches\": [" >> "$sizes_file"
+    if [ $log_compilation ]; then
+        sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
+        #echo board,target and start of sketches to sizes_file json
+        echo "{ \"board\": \"$fqbn\",
+                \"target\": \"$target\", 
+                \"sketches\": [" >> "$sizes_file"
+    fi
 
     local sketchnum=0
     args+=" -ai $ide_path -au $user_path -i $chunk_index"
+    if [ $log_compilation ]; then
+        args+=" -l $log_compilation"
+    fi
     for sketch in $sketches; do
         local sketchdir=$(dirname $sketch)
         local sketchdirname=$(basename $sketchdir)
@@ -403,14 +420,17 @@ function build_sketches(){ # build_sketches <ide_path> <user_path> <target> <pat
             return $result
         fi
     done
-    echo "Debug (sketch)- removing last comma from the last JSON object"
-    if [ $i -eq $(($len - 1)) ]; then
-        sed -i '$ s/.$//' "$sizes_file"
+
+    if [ $log_compilation ]; then
+        #remove last comma from json
+        if [ $i -eq $(($len - 1)) ]; then
+            sed -i '$ s/.$//' "$sizes_file"
+        fi
+        #echo end of sketches sizes_file json
+        echo "]" >> "$sizes_file"
+        #echo end of board sizes_file json
+        echo "}," >> "$sizes_file"
     fi
-    #echo end of sketches sizes_file json
-    echo "]" >> "$sizes_file"
-    #echo end of board sizes_file json
-    echo "}," >> "$sizes_file"
 
     return 0
 }
