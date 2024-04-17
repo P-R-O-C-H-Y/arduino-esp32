@@ -32,7 +32,7 @@ jobs:
 
       - name: Download JSON file
         run: |
-          cp master_cli_compile/*.json artifacts/sizes-report/master 
+          cp master_cli_compile/*.json artifacts/sizes-report/master/
         # Optionally, you can also use the 'actions/download-artifact' action here to download specific files
 
       # Optionally, you can add more steps here to process or use the downloaded JSON files
