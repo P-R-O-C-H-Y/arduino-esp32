@@ -22,6 +22,10 @@ jobs:
       github.event.workflow_run.conclusion == 'success'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # This step checks out the repository's code
+
+      # Optionally, you can add more steps here to process or use the downloaded JSON files
       - name: Download and Extract Artifacts
         run: |
           mkdir -p artifacts && cd artifacts
@@ -45,6 +49,17 @@ jobs:
           done
           echo "Contents of parent directory:"
           ls -R ..
+
+      - name: Fetch gh-pages branch
+        run: git fetch origin gh-pages:gh-pages  # Fetch the contents of the gh-pages branch
+
+      - name: Download JSON file
+        run: |
+          cp master_cli_compile/*.json artifacts/sizes-report/master 
+        # Optionally, you can also use the 'actions/download-artifact' action here to download specific files
+
+      - name: List files in the directory
+        run: ls -R
     
       - name: Report results
         uses: P-R-O-C-H-Y/report-size-deltas@sizes_v2
