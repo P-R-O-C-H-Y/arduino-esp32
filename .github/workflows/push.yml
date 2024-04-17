@@ -201,9 +201,14 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-    - name: Upload PR number
-      uses: actions/upload-artifact@v4
-      with:
-        name: pr_number
-        path: pr_number
-        overwrite: true
+      - name: Save the PR number in an artifact
+        shell: bash
+        env:
+          PR_NUM: ${{ github.event.number }}
+        run: echo $PR_NUM > pr_num.txt
+      - name: Upload PR number
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr_number
+          path: ./pr_num.txt
+          overwrite: true
