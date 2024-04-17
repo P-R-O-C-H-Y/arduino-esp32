@@ -11,7 +11,6 @@ env:
   # It's convenient to set variables for values used multiple times in the workflow
   SKETCHES_REPORTS_PATH: artifacts/sizes-report
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
 
 jobs:
   lib-test-results:
