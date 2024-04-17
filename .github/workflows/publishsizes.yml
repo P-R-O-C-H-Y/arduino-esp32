@@ -53,6 +53,9 @@ jobs:
       - name: Fetch gh-pages branch
         run: git fetch origin gh-pages:gh-pages  # Fetch the contents of the gh-pages branch
 
+      - name: List files in the directory
+        run: ls -R
+
       - name: Download JSON file
         run: |
           cp master_cli_compile/*.json artifacts/sizes-report/master 
