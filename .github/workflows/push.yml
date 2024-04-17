@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
+  # Check CMakeLists.txt
   cmake-check:
     name: Check cmake file
     runs-on: ubuntu-latest
