@@ -148,12 +148,8 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
         build_dir="$HOME/.arduino/tests/$sketchname/build.tmp"
     fi
 
-    echo "Chunk index = $chunk_index"
-
     output_file="$HOME/.arduino/cli_compile_output.txt"
     sizes_file="$GITHUB_WORKSPACE/cli_compile_$chunk_index.json"
-
-    echo "Sizes file = $sizes_file"
 
     mkdir -p "$ARDUINO_CACHE_DIR"
     for i in `seq 0 $(($len - 1))`
@@ -197,13 +193,10 @@ function build_sketch(){ # build_sketch <ide_path> <user_path> <path-to-ino> [ex
 
                 # Extract the directory path excluding the filename
                 directory_path=$(dirname "$sketch")
-                echo "Debug (sketch)- directory path = $directory_path"
                 # Define the constant part
                 constant_part="/home/runner/Arduino/hardware/espressif/esp32/libraries/"
-                echo "Debug (sketch)- constant part = $constant_part"
                 # Extract the desired substring using sed
                 lib_sketch_name=$(echo "$directory_path" | sed "s|$constant_part||")
-                echo "Debug (sketch)- extracted path = $lib_sketch_name"
                 #append json file where key is fqbn, sketch name, sizes -> extracted values
                 echo "{\"name\": \"$lib_sketch_name\", 
                     \"sizes\": [{
