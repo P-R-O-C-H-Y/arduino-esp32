@@ -50,7 +50,6 @@ jobs:
 
     #Upload cli compile json as artifact
     - name: Upload cli compile json
-      if: github.event_name == 'pull_request'
       uses: actions/upload-artifact@v4
       with:
         name: pr_cli_compile_${{ matrix.chunk }}
