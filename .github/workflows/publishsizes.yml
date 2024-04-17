@@ -39,7 +39,7 @@ jobs:
 
       - name: Download JSON file
         run: |
-          cp master_cli_compile/*.json artifacts/sizes-report/master/
+          mv master_cli_compile/*.json artifacts/sizes-report/master/
 
       - name: Download and Extract Artifacts
         run: |
@@ -50,9 +50,7 @@ jobs:
             IFS=$'\t' read name url <<< "$artifact"
             gh api $url > "$name.zip"
             unzip -j "$name.zip" -d "temp_$name"
-            if [[ "$name" == *"master"* ]]; then
-              mv "temp_$name"/* sizes-report/master
-            elif [[ "$name" == *"pr"* ]]; then
+            if [[ "$name" == *"pr"* ]]; then
               mv "temp_$name"/* sizes-report/pr
             else
               mv "temp_$name"/* sizes-report
