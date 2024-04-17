@@ -175,8 +175,8 @@ jobs:
           fetch-depth: '0'
 
       - name: Switch branch
-          run:
-            git checkout remotes/origin/gh-pages
+        run:
+          git checkout remotes/origin/gh-pages
 
       - name: Download sketches reports artifact
         uses: actions/download-artifact@v4
