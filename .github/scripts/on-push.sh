@@ -89,6 +89,17 @@ if [ "$BUILD_PIO" -eq 0 ]; then
     #create sizes_file
     sizes_file="$GITHUB_WORKSPACE/cli_compile_$CHUNK_INDEX.json"
 
+    echo "{\"boards\": [" > $sizes_file
+
+    #build sketches for different targets
+    #build "esp32s3" $FQBN_ESP32S3 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    #build "esp32s2" $FQBN_ESP32S2 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    #build "esp32c3" $FQBN_ESP32C3 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    #build "esp32c6" $FQBN_ESP32C6 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    build "esp32h2" $FQBN_ESP32H2 $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+    #build "esp32"   $FQBN_ESP32   $CHUNK_INDEX $CHUNKS_CNT $SKETCHES_ESP32
+
+
     if [ "$BUILD_LOG" -eq 1 ]; then
         #create sizes_file and echo start of JSON array with "boards" key
         echo "{\"boards\": [" > $sizes_file
