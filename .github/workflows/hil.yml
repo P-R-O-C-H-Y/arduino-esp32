@@ -69,6 +69,7 @@ jobs:
           name: ${{matrix.chip}}-${{matrix.chunks}}.artifacts
           path: |
              ~/.arduino/tests/*/build*.tmp/*.bin
+             ~/.arduino/tests/*/build*.tmp/*.elf
              ~/.arduino/tests/*/build*.tmp/*.json
           if-no-files-found: error
 
