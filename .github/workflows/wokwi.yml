@@ -39,7 +39,7 @@ jobs:
           echo "chunks=${CHUNKS}" >>$GITHUB_OUTPUT
 
   wokwi-test:
-    needs: [gen_chunks, build]
+    needs: [gen_chunks]
     name: ${{matrix.chip}}-Wokwi_Test#${{matrix.chunks}}
     strategy:
       fail-fast: false
