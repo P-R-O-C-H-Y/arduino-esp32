@@ -76,7 +76,6 @@ jobs:
   wokwi-test:
     needs: [gen_chunks, build]
     name: Run tests in wokwi
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/wokwi.yml
 
   hardware-test:
