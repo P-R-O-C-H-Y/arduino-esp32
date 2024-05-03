@@ -63,7 +63,7 @@ jobs:
         with:
           name: ${{matrix.chip}}-${{matrix.chunks}}.artifacts
           path: ~/.arduino/tests/
-          run-id: ${{github.event.workflow_run_id}}
+          run-id: ${{github.event.workflow_run.id}}
 
       - name: Install Wokwi CLI
         run: curl -L https://wokwi.com/ci/install.sh | sh
