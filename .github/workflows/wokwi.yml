@@ -2,7 +2,7 @@ name: Run tests in wokwi on PR
 
 on:
   workflow_run:
-    workflows: [ESP32 Arduino CI]
+    workflows: [Run tests]
     types:
       - completed
 
