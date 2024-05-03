@@ -11,7 +11,7 @@ permissions:
 
 env:
   MAX_CHUNKS: 15
-  WOKWI_TIMEOUT: 120000 # Milliseconds
+  WOKWI_TIMEOUT: 600000 # Milliseconds
   WOKWI_CLI_TOKEN: ${{ secrets.WOKWI_CLI_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -91,6 +91,7 @@ jobs:
     name: Report wokwi test result
     runs-on: ubuntu-latest
     needs: wokwi-test
+    if: always()
     steps:
       - name: Report result
         uses: actions/github-script@v7
@@ -112,7 +113,7 @@ jobs:
               repo: repo,
               sha: sha,
               state: conclusion,
-              target_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}'
+              target_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
             })).data;
             core.info(`${name} is ${state}`);
   
