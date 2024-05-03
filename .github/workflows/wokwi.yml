@@ -13,6 +13,7 @@ env:
   MAX_CHUNKS: 15
   WOKWI_TIMEOUT: 120000 # Milliseconds
   WOKWI_CLI_TOKEN: ${{ secrets.WOKWI_CLI_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: hil-${{github.event.pull_request.number || github.ref}}
@@ -64,7 +65,7 @@ jobs:
           name: ${{matrix.chip}}-${{matrix.chunks}}.artifacts
           path: ~/.arduino/tests/
           run-id: ${{github.event.workflow_run.id}}
-          token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{env.GITHUB_TOKEN}}
 
       - name: Install Wokwi CLI
         run: curl -L https://wokwi.com/ci/install.sh | sh
