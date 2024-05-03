@@ -14,6 +14,7 @@ on:
 env:
   MAX_CHUNKS: 15
   WOKWI_TIMEOUT: 120000 # Milliseconds
+  WOKWI_CLI_TOKEN: ${{ secrets.WOKWI_CLI_TOKEN }}
 
 concurrency:
   group: hil-${{github.event.pull_request.number || github.ref}}
@@ -74,9 +75,45 @@ jobs:
           if-no-files-found: error
 
   wokwi-test:
-    needs: [gen_chunks, build]
-    name: Run tests in wokwi
-    uses: ./.github/workflows/wokwi.yml
+    needs: [build, gen_chunks]
+    if: github.event_name == 'schedule'
+    name: ${{matrix.chip}}-Wokwi_Test#${{matrix.chunks}}
+    strategy:
+      fail-fast: false
+      matrix:
+        chip: ['esp32', 'esp32s2', 'esp32s3', 'esp32c3', 'esp32c6', 'esp32h2']
+        chunks: ${{fromJson(needs.gen_chunks.outputs.chunks)}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download ${{matrix.chip}}-${{matrix.chunks}} artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.chip}}-${{matrix.chunks}}.artifacts
+          path: ~/.arduino/tests/
+          run-id: ${{github.event.workflow_run_id}}
+
+      - name: Install Wokwi CLI
+        run: curl -L https://wokwi.com/ci/install.sh | sh
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r tests/requirements.txt --extra-index-url https://dl.espressif.com/pypi
+          sudo apt update && sudo apt install -y -qq jq
+
+      - name: Run Tests
+        run: |
+          bash .github/scripts/tests_run.sh -c -t ${{matrix.chip}} -i ${{matrix.chunks}} -m ${{env.MAX_CHUNKS}} -w ${{env.WOKWI_TIMEOUT}}
+
+      - name: Upload test result artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wokwi_results-${{matrix.chip}}-${{matrix.chunks}}
+          path: tests/*/*.xml
 
   hardware-test:
     needs: [gen_chunks, build]
