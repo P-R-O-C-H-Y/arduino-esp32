@@ -2,7 +2,7 @@ name: Run tests in wokwi on PR
 
 on:
   workflow_run:
-    workflows: [ESP32 Arduino CI]
+    workflows: [Run tests]
     types:
       - completed
 
@@ -13,6 +13,7 @@ env:
   MAX_CHUNKS: 15
   WOKWI_TIMEOUT: 120000 # Milliseconds
   WOKWI_CLI_TOKEN: ${{ secrets.WOKWI_CLI_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: hil-${{github.event.pull_request.number || github.ref}}
@@ -63,7 +64,8 @@ jobs:
         with:
           name: ${{matrix.chip}}-${{matrix.chunks}}.artifacts
           path: ~/.arduino/tests/
-          run-id: ${{github.event.workflow_run_id}}
+          run-id: ${{github.event.workflow_run.id}}
+          github-token: ${{env.GITHUB_TOKEN}}
 
       - name: Install Wokwi CLI
         run: curl -L https://wokwi.com/ci/install.sh | sh
@@ -97,18 +99,19 @@ jobs:
             const owner = '${{ github.repository_owner }}';
             const repo = '${{ github.repository }}'.split('/')[1];
             const sha = '${{ github.event.workflow_run.head_sha }}';
-            const result = '${{ wokwi-test.conclusion }}';
+            #create conclusion variable from previous job conclusion
+            const conclusion = '${{ needs.wokwi-test.conclusion }}';
             core.debug(`owner: ${owner}`);
             core.debug(`repo: ${repo}`);
             core.debug(`sha: ${sha}`);
-            core.debug(`result: ${result}`);
+            core.debug(`result: ${conclusion}`);
             const { context: name, state } = (await github.rest.repos.createCommitStatus({
               context: 'Wokwi tests',
-              description: 'Wokwi tests ${result}',
+              description: 'Wokwi tests ${conclusion}',
               owner: owner,
               repo: repo,
               sha: sha,
-              state: result,
+              state: conclusion,
               target_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}'
             })).data;
             core.info(`${name} is ${state}`);
