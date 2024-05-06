@@ -33,7 +33,9 @@ void setup()
   UNITY_BEGIN();
   pinMode(BTN, INPUT_PULLUP);
   RUN_TEST(test_button);
+  delay(1000); //delay for scenario to finish
   UNITY_END();
+
 }
 
 void loop()
