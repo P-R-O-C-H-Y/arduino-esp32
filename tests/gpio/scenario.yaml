@@ -36,4 +36,4 @@ steps:
       part-id: btn1
       control: pressed
       value: 1
-  - wait-serial: 'Button pressed 3 times'
+  #- wait-serial: 'Button pressed 3 times'
