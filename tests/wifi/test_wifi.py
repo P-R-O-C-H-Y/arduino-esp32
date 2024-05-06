@@ -1,2 +1,3 @@
 def test_wifi(dut):
-    dut.expect_unity_test_output(timeout=240)
+    dut.expect("WiFi connected")
+    dut.expect("IP address:")
