@@ -1,2 +1,5 @@
 def test_gpio(dut):
-    dut.expect_unity_test_output(timeout=120)
+    dut.expect("Button test")
+    dut.expect("Button pressed 1 times")
+    dut.expect("Button pressed 2 times")
+    dut.expect("Button pressed 3 times")
