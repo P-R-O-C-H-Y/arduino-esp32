@@ -1,3 +1,3 @@
 def test_wifi(dut):
-    dut.expect("WiFi connected")
-    dut.expect("IP address:")
+    dut.expect_exact("WiFi connected")
+    dut.expect_exact("IP address:")
