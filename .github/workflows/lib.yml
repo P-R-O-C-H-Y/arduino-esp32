@@ -70,7 +70,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: List files
-        run: ls -la
+        run: ls -R
 
       - name: Compile sketch
         uses: P-R-O-C-H-Y/compile-sketches@debug1
