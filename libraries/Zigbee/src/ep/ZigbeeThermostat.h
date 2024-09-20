@@ -39,6 +39,7 @@ class ZigbeeThermostat : public ZigbeeEP {
         virtual void temperatureMax(float temp);
         virtual void temperatureTolerance(float tolerance);
 
+        void getSensorSettings();
         void getTemperature();
         void setTemperatureReporting(uint16_t min_interval, uint16_t max_interval, float delta);
 
