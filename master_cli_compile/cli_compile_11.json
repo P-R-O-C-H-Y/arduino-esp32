@@ -161,7 +161,7 @@
                     },
 {"name": "WebServer/examples/HttpBasicAuth",
                     "sizes": [{
-                            "flash_bytes": 941782,
+                            "flash_bytes": 941774,
                             "flash_percentage": 71,
                             "ram_bytes": 42584,
                             "ram_percentage": 12

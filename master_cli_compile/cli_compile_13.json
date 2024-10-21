@@ -501,7 +501,7 @@
                 "sketches": [
 {"name": "WiFi/examples/WiFiBlueToothSwitch",
                     "sizes": [{
-                            "flash_bytes": 1050801,
+                            "flash_bytes": 1050809,
                             "flash_percentage": 80,
                             "ram_bytes": 47836,
                             "ram_percentage": 14
