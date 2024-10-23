@@ -23,6 +23,10 @@ diff=$(diff -u boards.txt boards_pr.txt)
 # Extract added or modified lines (lines starting with '+' or '-')
 modified_lines=$(echo "$diff" | grep -E '^[+-][^+-]')
 
+# Print the modified lines
+echo "Modified lines:"
+echo "$modified_lines"
+
 boards_array=()
 previous_board=""
 
@@ -42,6 +46,13 @@ do
         fi
     fi
 done <<< "$modified_lines"
+
+# Print all boards found
+echo "Boards found:"
+for board in ${boards_array[@]}
+do
+    echo $board
+done
 
 # Create JSON like string with all boards found and pass it to env variable
 board_count=${#boards_array[@]}
