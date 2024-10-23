@@ -17,6 +17,13 @@ echo $Boards_modified_url
 # Download the modified boards.txt file
 curl -L -o boards_pr.txt $Boards_modified_url
 
+# Check if the file is downloaded
+if [ ! -f boards_pr.txt ]
+then
+    echo "Error: boards.txt file not downloaded"
+    exit 1
+fi
+
 # Compare boards.txt file in the repo with the modified file
 diff=$(diff -u boards.txt boards_pr.txt)
 
