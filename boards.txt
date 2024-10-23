@@ -44367,3 +44367,7 @@ cezerio_dev_esp32c6.menu.ZigbeeMode.rcp.build.zigbee_mode=-DZIGBEE_MODE_RCP
 cezerio_dev_esp32c6.menu.ZigbeeMode.rcp.build.zigbee_libs=-lesp_zb_api_rcp -lesp_zb_cli_command -lzboss_stack.rcp -lzboss_port
 
 ##############################################################
+
+test_1.build.board=TEST_1
+test_2.build.board=TEST_2
+test_3.build.board=TEST_3

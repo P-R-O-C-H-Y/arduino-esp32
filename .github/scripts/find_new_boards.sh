@@ -25,7 +25,6 @@ modified_lines=$(echo "$diff" | grep -E '^[+-][^+-]')
 
 boards_array=()
 previous_board=""
-file="boards.txt"
 
 # Extract board names from the modified lines, and add them to the boards_array
 while read -r line
