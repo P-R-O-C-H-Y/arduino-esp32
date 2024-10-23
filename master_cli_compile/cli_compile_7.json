@@ -145,8 +145,8 @@
                     },
 {"name": "NetworkClientSecure/examples/WiFiClientSecureEnterprise",
                     "sizes": [{
-                            "flash_bytes": 983046,
-                            "flash_percentage": 75,
+                            "flash_bytes": 983038,
+                            "flash_percentage": 74,
                             "ram_bytes": 38528,
                             "ram_percentage": 11
                             }]
@@ -161,7 +161,7 @@
                     },
 {"name": "NetworkClientSecure/examples/WiFiClientShowPeerCredentials",
                     "sizes": [{
-                            "flash_bytes": 974590,
+                            "flash_bytes": 974598,
                             "flash_percentage": 74,
                             "ram_bytes": 38080,
                             "ram_percentage": 11
@@ -169,7 +169,7 @@
                     },
 {"name": "NetworkClientSecure/examples/WiFiClientTrustOnFirstUse",
                     "sizes": [{
-                            "flash_bytes": 945714,
+                            "flash_bytes": 945706,
                             "flash_percentage": 72,
                             "ram_bytes": 38408,
                             "ram_percentage": 11
