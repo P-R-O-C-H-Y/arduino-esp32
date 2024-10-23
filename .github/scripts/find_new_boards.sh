@@ -27,6 +27,7 @@ modified_lines=$(echo "$diff" | grep -E '^[+-][^+-]')
 echo "Modified lines:"
 echo "$modified_lines"
 
+
 boards_array=()
 previous_board=""
 
@@ -53,6 +54,7 @@ for board in ${boards_array[@]}
 do
     echo $board
 done
+
 
 # Create JSON like string with all boards found and pass it to env variable
 board_count=${#boards_array[@]}
