@@ -2,38 +2,28 @@
 
 # Get inputs from command
 owner_repository=$1
-pr_number=$2
+base_ref=$2
 
-url="https://api.github.com/repos/$owner_repository/pulls/$pr_number/files"
-echo $url
+# Download the boards.txt file from the base branch
+curl -L -o boards_base.txt https://raw.githubusercontent.com/$owner_repository/$base_ref/boards.txt
 
-# Get changes in boards.txt file from PR
-Boards_modified_url=$(curl -s $url | jq -r '.[] | select(.filename == "boards.txt") | .raw_url')
+# Compare boards.txt file in the repo with the modified file from PR
+diff=$(diff -u boards_base.txt boards.txt)
 
-# Echo the modified boards.txt file URL
-echo "Modified boards.txt file URL:"
-echo $Boards_modified_url
-
-# Download the modified boards.txt file
-curl -L -o boards_pr.txt $Boards_modified_url
-
-# Check if the file is downloaded
-if [ ! -f boards_pr.txt ]
+# Check if the diff is empty
+if [ -z "$diff" ]
 then
-    echo "Error: boards.txt file not downloaded"
-    exit 1
+    echo "No changes in boards.txt file"
+    echo "FQBNS="
+    exit 0
 fi
-
-# Compare boards.txt file in the repo with the modified file
-diff=$(diff -u boards.txt boards_pr.txt)
 
 # Extract added or modified lines (lines starting with '+' or '-')
 modified_lines=$(echo "$diff" | grep -E '^[+-][^+-]')
 
-# Print the modified lines
+# Print the modified lines for debugging
 echo "Modified lines:"
 echo "$modified_lines"
-
 
 boards_array=()
 previous_board=""
@@ -54,14 +44,6 @@ do
         fi
     fi
 done <<< "$modified_lines"
-
-# Print all boards found
-echo "Boards found:"
-for board in ${boards_array[@]}
-do
-    echo $board
-done
-
 
 # Create JSON like string with all boards found and pass it to env variable
 board_count=${#boards_array[@]}
