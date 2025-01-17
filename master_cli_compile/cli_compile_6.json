@@ -342,9 +342,9 @@
                     },
 {"name": "Matter/examples/MatterMinimum",
                     "sizes": [{
-                            "flash_bytes": 1555203,
+                            "flash_bytes": 1568123,
                             "flash_percentage": 49,
-                            "ram_bytes": 86236,
+                            "ram_bytes": 86252,
                             "ram_percentage": 26
                             }]
                     }
@@ -666,7 +666,7 @@
                 "sketches": [
 {"name": "ESP_I2S/examples/Simple_tone",
                     "sizes": [{
-                            "flash_bytes": 329020,
+                            "flash_bytes": 329040,
                             "flash_percentage": 25,
                             "ram_bytes": 20420,
                             "ram_percentage": 6

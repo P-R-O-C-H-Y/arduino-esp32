@@ -129,7 +129,7 @@
                     },
 {"name": "Matter/examples/MatterMinimum",
                     "sizes": [{
-                            "flash_bytes": 1588476,
+                            "flash_bytes": 1601176,
                             "flash_percentage": 50,
                             "ram_bytes": 90964,
                             "ram_percentage": 27
@@ -435,9 +435,9 @@
                     },
 {"name": "Matter/examples/MatterMinimum",
                     "sizes": [{
-                            "flash_bytes": 1581132,
+                            "flash_bytes": 1595152,
                             "flash_percentage": 50,
-                            "ram_bytes": 82532,
+                            "ram_bytes": 82540,
                             "ram_percentage": 25
                             }]
                     },
@@ -496,9 +496,9 @@
                     },
 {"name": "Matter/examples/MatterMinimum",
                     "sizes": [{
-                            "flash_bytes": 1587561,
+                            "flash_bytes": 1602395,
                             "flash_percentage": 50,
-                            "ram_bytes": 88528,
+                            "ram_bytes": 88536,
                             "ram_percentage": 27
                             }]
                     },

@@ -613,7 +613,7 @@
                     },
 {"name": "ESP_I2S/examples/ES8388_loopback",
                     "sizes": [{
-                            "flash_bytes": 353017,
+                            "flash_bytes": 353041,
                             "flash_percentage": 26,
                             "ram_bytes": 14040,
                             "ram_percentage": 4
@@ -621,7 +621,7 @@
                     },
 {"name": "ESP_I2S/examples/Simple_tone",
                     "sizes": [{
-                            "flash_bytes": 305245,
+                            "flash_bytes": 305269,
                             "flash_percentage": 23,
                             "ram_bytes": 12868,
                             "ram_percentage": 3
@@ -730,8 +730,8 @@
                     },
 {"name": "Matter/examples/MatterMinimum",
                     "sizes": [{
-                            "flash_bytes": 1635048,
-                            "flash_percentage": 51,
+                            "flash_bytes": 1648740,
+                            "flash_percentage": 52,
                             "ram_bytes": 91852,
                             "ram_percentage": 28
                             }]
