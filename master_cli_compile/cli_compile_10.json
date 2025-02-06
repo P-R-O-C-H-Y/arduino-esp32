@@ -52,7 +52,7 @@
                     },
 {"name": "Update/examples/AWS_S3_OTA_Update",
                     "sizes": [{
-                            "flash_bytes": 667521,
+                            "flash_bytes": 667599,
                             "flash_percentage": 50,
                             "ram_bytes": 27096,
                             "ram_percentage": 8
@@ -60,7 +60,7 @@
                     },
 {"name": "Update/examples/HTTPS_OTA_Update",
                     "sizes": [{
-                            "flash_bytes": 858437,
+                            "flash_bytes": 858513,
                             "flash_percentage": 65,
                             "ram_bytes": 27920,
                             "ram_percentage": 8
@@ -68,7 +68,7 @@
                     },
 {"name": "Update/examples/HTTP_Client_AES_OTA_Update",
                     "sizes": [{
-                            "flash_bytes": 711875,
+                            "flash_bytes": 711953,
                             "flash_percentage": 54,
                             "ram_bytes": 27172,
                             "ram_percentage": 8
@@ -76,7 +76,7 @@
                     },
 {"name": "Update/examples/HTTP_Server_AES_OTA_Update",
                     "sizes": [{
-                            "flash_bytes": 748439,
+                            "flash_bytes": 748517,
                             "flash_percentage": 57,
                             "ram_bytes": 29440,
                             "ram_percentage": 8
@@ -84,7 +84,7 @@
                     },
 {"name": "Update/examples/OTAWebUpdater",
                     "sizes": [{
-                            "flash_bytes": 731935,
+                            "flash_bytes": 732015,
                             "flash_percentage": 55,
                             "ram_bytes": 29328,
                             "ram_percentage": 8
@@ -451,7 +451,7 @@
                     },
 {"name": "WebServer/examples/FSBrowser",
                     "sizes": [{
-                            "flash_bytes": 1044282,
+                            "flash_bytes": 1044294,
                             "flash_percentage": 79,
                             "ram_bytes": 38260,
                             "ram_percentage": 11
@@ -560,7 +560,7 @@
                     },
 {"name": "WebServer/examples/FSBrowser",
                     "sizes": [{
-                            "flash_bytes": 1052383,
+                            "flash_bytes": 1052395,
                             "flash_percentage": 80,
                             "ram_bytes": 44264,
                             "ram_percentage": 13
@@ -645,7 +645,7 @@
                     },
 {"name": "SPIFFS/examples/SPIFFS_Test",
                     "sizes": [{
-                            "flash_bytes": 322531,
+                            "flash_bytes": 322543,
                             "flash_percentage": 24,
                             "ram_bytes": 13268,
                             "ram_percentage": 4
@@ -693,22 +693,6 @@
                             "flash_bytes": 2081468,
                             "flash_percentage": 51,
                             "ram_bytes": 62464,
-                            "ram_percentage": 19
-                            }]
-                    },
-{"name": "RainMaker/examples/RMakerCustomAirCooler",
-                    "sizes": [{
-                            "flash_bytes": 2059952,
-                            "flash_percentage": 51,
-                            "ram_bytes": 62656,
-                            "ram_percentage": 19
-                            }]
-                    },
-{"name": "RainMaker/examples/RMakerSonoffDualR3",
-                    "sizes": [{
-                            "flash_bytes": 2084960,
-                            "flash_percentage": 51,
-                            "ram_bytes": 62968,
                             "ram_percentage": 19
                             }]
                     },
@@ -762,7 +746,7 @@
                     },
 {"name": "SPIFFS/examples/SPIFFS_Test",
                     "sizes": [{
-                            "flash_bytes": 343776,
+                            "flash_bytes": 343780,
                             "flash_percentage": 26,
                             "ram_bytes": 20684,
                             "ram_percentage": 6
@@ -770,10 +754,26 @@
                     },
 {"name": "SPIFFS/examples/SPIFFS_time",
                     "sizes": [{
-                            "flash_bytes": 955336,
+                            "flash_bytes": 955340,
                             "flash_percentage": 72,
                             "ram_bytes": 46180,
                             "ram_percentage": 14
+                            }]
+                    },
+{"name": "SimpleBLE/examples/SimpleBleDevice",
+                    "sizes": [{
+                            "flash_bytes": 1140324,
+                            "flash_percentage": 86,
+                            "ram_bytes": 39068,
+                            "ram_percentage": 11
+                            }]
+                    },
+{"name": "TFLiteMicro/examples/hello_world",
+                    "sizes": [{
+                            "flash_bytes": 329544,
+                            "flash_percentage": 25,
+                            "ram_bytes": 22620,
+                            "ram_percentage": 6
                             }]
                     }
 ]
