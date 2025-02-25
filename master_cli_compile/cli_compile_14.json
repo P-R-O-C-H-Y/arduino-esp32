@@ -155,7 +155,7 @@
                     },
 {"name": "Zigbee/examples/Zigbee_Pressure_Flow_Sensor",
                     "sizes": [{
-                            "flash_bytes": 535455,
+                            "flash_bytes": 535359,
                             "flash_percentage": 40,
                             "ram_bytes": 28712,
                             "ram_percentage": 8
@@ -261,7 +261,7 @@
                     },
 {"name": "WiFi/examples/WiFiScanAsync",
                     "sizes": [{
-                            "flash_bytes": 895522,
+                            "flash_bytes": 895506,
                             "flash_percentage": 68,
                             "ram_bytes": 45104,
                             "ram_percentage": 13
