@@ -775,6 +775,14 @@
                             "ram_bytes": 39996,
                             "ram_percentage": 12
                             }]
+                    },
+{"name": "BLE/examples/iBeacon",
+                    "sizes": [{
+                            "flash_bytes": 1125794,
+                            "flash_percentage": 35,
+                            "ram_bytes": 40004,
+                            "ram_percentage": 12
+                            }]
                     }
 ]
 }
