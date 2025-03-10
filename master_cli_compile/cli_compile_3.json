@@ -342,7 +342,7 @@
                     },
 {"name": "ESP32/examples/Timer/RepeatTimer",
                     "sizes": [{
-                            "flash_bytes": 278201,
+                            "flash_bytes": 278193,
                             "flash_percentage": 21,
                             "ram_bytes": 15800,
                             "ram_percentage": 4
