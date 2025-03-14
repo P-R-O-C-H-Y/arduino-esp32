@@ -302,7 +302,7 @@
                     },
 {"name": "ESP_NOW/examples/ESP_NOW_Broadcast_Master",
                     "sizes": [{
-                            "flash_bytes": 832473,
+                            "flash_bytes": 832481,
                             "flash_percentage": 63,
                             "ram_bytes": 39600,
                             "ram_percentage": 12

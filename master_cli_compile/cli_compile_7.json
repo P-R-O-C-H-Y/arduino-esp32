@@ -177,7 +177,7 @@
                     },
 {"name": "Matter/examples/MatterSmartButon",
                     "sizes": [{
-                            "flash_bytes": 1667006,
+                            "flash_bytes": 1667022,
                             "flash_percentage": 52,
                             "ram_bytes": 99428,
                             "ram_percentage": 30
@@ -209,7 +209,7 @@
                     },
 {"name": "Matter/examples/WiFiProvWithinMatter",
                     "sizes": [{
-                            "flash_bytes": 2331386,
+                            "flash_bytes": 2331370,
                             "flash_percentage": 74,
                             "ram_bytes": 122512,
                             "ram_percentage": 37
