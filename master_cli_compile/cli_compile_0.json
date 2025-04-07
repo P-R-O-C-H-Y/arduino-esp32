@@ -105,7 +105,7 @@
                 "sketches": [
 {"name": "ArduinoOTA/examples/BasicOTA",
                     "sizes": [{
-                            "flash_bytes": 930230,
+                            "flash_bytes": 930294,
                             "flash_percentage": 70,
                             "ram_bytes": 50356,
                             "ram_percentage": 15
@@ -238,7 +238,7 @@
                 "sketches": [
 {"name": "ArduinoOTA/examples/BasicOTA",
                     "sizes": [{
-                            "flash_bytes": 895161,
+                            "flash_bytes": 895221,
                             "flash_percentage": 68,
                             "ram_bytes": 45492,
                             "ram_percentage": 13
@@ -355,7 +355,7 @@
                 "sketches": [
 {"name": "ArduinoOTA/examples/BasicOTA",
                     "sizes": [{
-                            "flash_bytes": 1003666,
+                            "flash_bytes": 1003674,
                             "flash_percentage": 76,
                             "ram_bytes": 41728,
                             "ram_percentage": 12
@@ -472,7 +472,7 @@
                 "sketches": [
 {"name": "ArduinoOTA/examples/BasicOTA",
                     "sizes": [{
-                            "flash_bytes": 1011127,
+                            "flash_bytes": 1011135,
                             "flash_percentage": 77,
                             "ram_bytes": 47820,
                             "ram_percentage": 14
@@ -587,6 +587,14 @@
                             "flash_bytes": 1072029,
                             "flash_percentage": 34,
                             "ram_bytes": 39216,
+                            "ram_percentage": 11
+                            }]
+                    },
+{"name": "BLE/examples/Server_multiconnect",
+                    "sizes": [{
+                            "flash_bytes": 1076209,
+                            "flash_percentage": 34,
+                            "ram_bytes": 39232,
                             "ram_percentage": 11
                             }]
                     }
