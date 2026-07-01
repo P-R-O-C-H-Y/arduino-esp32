@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
@@ -33,7 +34,12 @@ public:
 
   SPITestConfig(std::string name, const char *mountpoint, uint8_t spi_num, int8_t sck, int8_t miso, int8_t mosi, int8_t ss)
     : name(name), mountpoint(mountpoint), spi_num(spi_num), sck(sck), miso(miso), mosi(mosi), ss(ss) {
-    Serial.printf("Creating SPITestConfig [%s] on SPI bus %d: SCK=%d, MISO=%d, MOSI=%d, SS=%d\n", name.c_str(), spi_num, sck, miso, mosi, ss);
+    Serial.printf("Creating SPITestConfig [%s] on SPI bus %u: SCK=%d, MISO=%d, MOSI=%d, SS=%d\n", name.c_str(), spi_num, sck, miso, mosi, ss);
+    // Flush after each constructor printf to drain the UART FIFO before the next constructor runs.
+    // Without this, consecutive constructor calls accumulate bytes faster than the FIFO drains,
+    // causing the Wokwi simulator to deadlock (it only advances UART simulation when the CPU
+    // yields via RTOS, but uart_write_bytes with no TX ring buffer spins waiting for FIFO space).
+    Serial.flush();
   }
 
   void begin(uint8_t max_files = MAX_FILES, bool format_if_empty = false) {
@@ -52,6 +58,7 @@ public:
     spi.reset();
     sd.reset();
     Serial.printf("SPI and SD card for [%s] cleaned up\n", name.c_str());
+    Serial.flush();
   }
 };
 
@@ -62,6 +69,7 @@ void run_init_continuous(SpiTestFunction test_function, uint8_t max_files, bool 
   for (auto &ref : spiTestConfigs) {
     SPITestConfig &config = *ref;
     Serial.printf("Running test with SPI configuration: SCK=%d, MISO=%d, MOSI=%d, SS=%d\n", config.sck, config.miso, config.mosi, config.ss);
+    Serial.flush();
     config.begin(max_files, format_if_empty);
     test_function(config);
     config.end();
@@ -101,6 +109,26 @@ void test_sd_basic(void) {
     SPITestConfig &config = *ref;
     config.begin();
     TEST_ASSERT_TRUE_MESSAGE(config.sd->exists("/"), "Root directory should exist");
+
+    File f = config.sd->open("/basic_test.txt", FILE_WRITE);
+    TEST_ASSERT_TRUE_MESSAGE(f, "Failed to open file for write");
+    size_t written = f.print("SD_OK");
+    TEST_ASSERT_EQUAL(5, written);
+    f.close();
+
+    f = config.sd->open("/basic_test.txt", FILE_READ);
+    TEST_ASSERT_TRUE_MESSAGE(f, "Failed to open file for read");
+    String content = f.readString();
+    TEST_ASSERT_EQUAL_STRING("SD_OK", content.c_str());
+    f.close();
+
+    TEST_ASSERT_TRUE(config.sd->remove("/basic_test.txt"));
+
+    uint64_t totalBytes = config.sd->totalBytes();
+    TEST_ASSERT_GREATER_THAN(0, totalBytes);
+    uint64_t usedBytes = config.sd->usedBytes();
+    TEST_ASSERT_LESS_OR_EQUAL(totalBytes, usedBytes);
+
     config.end();
   }
 }
@@ -142,6 +170,7 @@ void test_sd_open_limit(void) {
   run_init_continuous(
     [](SPITestConfig &config) {
       Serial.printf("Testing file open limit with SPI configuration: SCK=%d, MISO=%d, MOSI=%d, SS=%d\n", config.sck, config.miso, config.mosi, config.ss);
+      Serial.flush();
 
       // Open multiple files to test the limit
       File file1 = config.sd->open("/file1.txt", FILE_WRITE);
@@ -208,7 +237,7 @@ void test_sd_directory_listing(void) {
         Serial.printf("Found directory: %s\n", entry.name());
       } else {
         fileCount++;
-        Serial.printf("Found file: %s (size: %d bytes)\n", entry.name(), entry.size());
+        Serial.printf("Found file: %s (size: %lu bytes)\n", entry.name(), (unsigned long)entry.size());
       }
       entry.close();
       entry = dir.openNextFile();
@@ -475,7 +504,10 @@ void test_sd_large_file_operations(void) {
       for (size_t i = 0; i < chunkSize; i++) {
         if (readBuffer[i] != writeBuffer[i]) {
           char errorMsg[100];
-          snprintf(errorMsg, sizeof(errorMsg), "Data mismatch at chunk %zu, byte %zu: expected %d, got %d", chunk, i, writeBuffer[i], readBuffer[i]);
+          snprintf(
+            errorMsg, sizeof(errorMsg), "Data mismatch at chunk %lu, byte %lu: expected %d, got %d", (unsigned long)chunk, (unsigned long)i, writeBuffer[i],
+            readBuffer[i]
+          );
           TEST_FAIL_MESSAGE(errorMsg);
         }
       }
